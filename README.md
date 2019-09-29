@@ -1,7 +1,7 @@
 # Elementaristics
 Occult mysticism shenangigans
 
-![ElementaristicsV](https://img.shields.io/badge/Elementaristics%20version-0.0.9.2-purple.svg?longCache=true&style=flat)   
+![ElementaristicsV](https://img.shields.io/badge/Elementaristics%20version-1.0-purple.svg?longCache=true&style=flat)   
 ![Minecraft Version](https://img.shields.io/badge/minecraft_version-1.14.4+-red.svg?longCache=true&style=flat)
 
 This mod is still WIP, so feel free to report any issues!
