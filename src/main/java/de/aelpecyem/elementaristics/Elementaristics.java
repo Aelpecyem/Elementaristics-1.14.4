@@ -1,16 +1,17 @@
 package de.aelpecyem.elementaristics;
 
-import de.aelpecyem.elementaristics.reg.ModBanners;
-import de.aelpecyem.elementaristics.reg.ModParticles;
-import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.common.item.essence.ItemEssence;
+import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.proxy.ClientProxy;
 import de.aelpecyem.elementaristics.proxy.CommonProxy;
 import de.aelpecyem.elementaristics.reg.ModBlocks;
 import de.aelpecyem.elementaristics.reg.ModItems;
+import de.aelpecyem.elementaristics.reg.ModParticles;
 import net.minecraft.block.Block;
-import net.minecraft.item.*;
-import net.minecraft.tileentity.BannerPattern;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -20,7 +21,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,14 +47,14 @@ public class Elementaristics {
 
             super.fill(items);
 
-            for (final BannerPattern banner : ModBanners.getModdedPatterns())
-                items.add(ModBanners.createBanner(Items.WHITE_BANNER, banner));
+            //for (final BannerPattern banner : ModBanners.getModdedPatterns())
+            //    items.add(ModBanners.createBanner(Items.WHITE_BANNER, banner));
         }
     };
 
     public Elementaristics() {
         Aspect.initAspects();
-        ModBanners.init();
+        //  ModBanners.init();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::preInit);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::postInit);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);

@@ -1,137 +1,108 @@
 package de.aelpecyem.elementaristics.client.fx.particle;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.util.ColorUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.play.ClientPlayNetHandler;
-import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.client.particle.IParticleFactory;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL11;
 
-@OnlyIn(Dist.CLIENT)
-public class GlowParticle extends SpriteTexturedParticle {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Elementaristics.MODID, "textures/misc/particle_base_1.png");
-    //the rendering with the ParticleHandler class might not be needed in 1.14, but idk, we'll see
-    //also, for the 1.14 port, change the constructors and add option for also fading IN and not only out; this should be false for spells etc, but true for statues
-    private final float desiredScale;
-    private final boolean fade; //fade instead of boolean will be a mode (0: no fading, 1: fade out, 3: fade in then out, 4: fade int
-    private final boolean followPosition;
-    private final double xTo, yTo, zTo;
-    private final boolean shrink;
-    //cut out a few of these
+import javax.annotation.Nullable;
 
-    public GlowParticle(World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, int color, float scale, int maxAge, float gravity, boolean collision, boolean fade, float alpha, boolean shrink) {
-        super(world, posX, posY, posZ);
-        this.desiredScale = scale;
-        this.maxAge = maxAge;
 
-        this.canCollide = collision;
+public class GlowParticle extends ModParticle { //todo work on all that stuff later, maybe optimize it by using actual RenderType code etc.
+    public GlowParticle(World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ) {
+        super(world, posX, posY, posZ, motionX, motionY, motionZ);
+        this.particleScale = 0.7F;
+        this.particleGravity = 0.002f;
+        this.particleRed = 0.7F; //(float) motionX;
+        this.particleGreen = 0.3F;//(float) motionY;
+        this.particleBlue = 0.5F;//(float) motionZ;
+        this.maxAge = this.rand.nextInt(20) + 10;
+        this.particleAlpha = 1.0F;
+    }
+
+    public GlowParticle(World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, int lifetime, int color, float alpha, float scale, float gravity, EnumFadeMode fadeMode) {
+        super(world, posX, posY, posZ, motionX, motionY, motionZ);
+        this.particleScale = scale;
         this.particleGravity = gravity;
-        this.fade = fade;
-
-        this.motionX = motionX;
-        this.motionY = motionY;
-        this.motionZ = motionZ;
-
-        followPosition = false;
-        this.shrink = shrink;
-        xTo = 0;
-        yTo = 0;
-        zTo = 0;
-
-        float r = (((color >> 16) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
-        float g = (((color >> 8) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
-        float b = ((color & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
-        this.setColor(r, g, b);
-
+        this.particleRed = (((color >> 16) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
+        this.particleGreen = (((color >> 8) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
+        this.particleBlue = ((color & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
+        this.maxAge = lifetime;
         this.particleAlpha = alpha;
-        this.particleScale = desiredScale; //setSize(desiredScale, desiredScale);
-        //this.multipleParticleScaleBy(desiredScale); //particleScale = this.desiredScale;
-
-        //setParticleTextureIndex(0);
-        this.sprite = Minecraft.getInstance().getTextureMap().getAtlasSprite(new ResourceLocation(Elementaristics.MODID, "particle/glow").toString());
-
+        //todo work on the "AI" and params stuff later, add spawning methods in ModParticles, move the handling done in ParticleHandler to ModParticles, tick stuff etc.
     }
 
-    public GlowParticle(World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, int color, float scale, int maxAge, float gravity, boolean collision, boolean fade, boolean shrink, boolean followPosition, double xTo, double yTo, double zTo) {
-        super(world, posX, posY, posZ);
-        this.desiredScale = scale;
-        this.maxAge = maxAge;
-        this.canCollide = collision;
-        this.particleGravity = gravity;
-        this.fade = fade;
-        this.shrink = shrink;
-
-        this.motionX = motionX;
-        this.motionY = motionY;
-        this.motionZ = motionZ;
-        this.followPosition = followPosition;
-        this.xTo = xTo;
-        this.yTo = yTo;
-        this.zTo = zTo;
-
-        float r = (((color >> 16) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
-        float g = (((color >> 8) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
-        float b = ((color & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
-        this.setColor(r, g, b);
-
-
-        this.particleAlpha = 0.5F;
-        this.particleScale = desiredScale;
-        setSprite(Minecraft.getInstance().getTextureMap().getAtlasSprite(new ResourceLocation(Elementaristics.MODID, "particle/glow").toString()));
-        //this.setSize(desiredScale, desiredScale);
+    public GlowParticle(World world, double posX, double posY, double posZ, double posXTo, double posYTo, double posZTo, int lifetime, int color, float alpha, float scale, EnumFadeMode fadeMode) {
+        super(world, posX, posY, posZ, 0, 0, 0);
+        this.particleScale = scale;
+        this.particleGravity = 0;
+        this.particleRed = (((color >> 16) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
+        this.particleGreen = (((color >> 8) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
+        this.particleBlue = ((color & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
+        this.maxAge = lifetime;
+        this.particleAlpha = alpha;
     }
+
 
     @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
-    }
-
-    @Override
-    public int getBrightnessForRender(float f) {
-        return 15 << 20 | 15 << 4;
-    }
-
-    public float getRed(){
-        return particleRed;
-    }
-
-    public float getGreen(){
-        return particleGreen;
-    }
-
-    public float getBlue(){
-        return particleBlue;
-    }
-
-
-
-    @OnlyIn(Dist.CLIENT)
-    public static class Factory implements IParticleFactory<BasicParticleType> {
-        private final IAnimatedSprite spriteSet;
-
-        public Factory(IAnimatedSprite sprite) {
-            this.spriteSet = sprite;
+    public void tick() {
+        this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
+        if (this.age++ < this.maxAge && this.particleAlpha > 0.0F) {
+            this.motionX += this.rand.nextFloat() / 5000.0F * (float) (this.rand.nextBoolean() ? 1 : -1);
+            this.motionZ += this.rand.nextFloat() / 5000.0F * (float) (this.rand.nextBoolean() ? 1 : -1);
+            this.motionY -= this.rand.nextFloat() / 5000.0F * (float) (this.rand.nextBoolean() ? 1 : -1);
+            ;
+            this.move(this.motionX, this.motionY, this.motionZ);
+            if (this.age >= this.maxAge - 10 && this.particleAlpha > 0.01F) {
+                this.particleAlpha -= 0.05F;
+            }
+        } else {
+            this.setExpired();
         }
 
-        public Particle makeParticle(BasicParticleType typeIn, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            GlowParticle glowParticle = new GlowParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, worldIn.rand.nextInt(16777215), worldIn.rand.nextInt(5) + 5, 200, 0, false, true, 0.9F, true);
-            glowParticle.selectSpriteRandomly(this.spriteSet);
-            return glowParticle;
+    }
+
+    @Override
+    public int getBrightnessForRender(float partialTick) {
+        float f = ((float) this.age + partialTick) / (float) this.maxAge;
+        f = MathHelper.clamp(f, 0.0F, 1.0F);
+        int i = super.getBrightnessForRender(partialTick);
+        int j = i & 255;
+        int k = i >> 16 & 255;
+        j += (int) (f * 15.0F * 16.0F);
+        if (j > 240) {
+            j = 240;
+        }
+
+        return j | k << 16;
+    }
+
+    @Override
+    public ResourceLocation getTexture() {
+        return new ResourceLocation(Elementaristics.MODID, "textures/particle/glow.png");//ParticleTexture.MAGIC_SMOKE[currentFrame];
+    }
+
+    public enum EnumFadeMode {
+        OUT,
+        IN,
+        IN_OUT,
+        NONE
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class Factory implements IParticleFactory<IParticleData> {
+        @Nullable
+        @Override
+        public Particle makeParticle(IParticleData iParticleData, World world, double v, double v1, double v2, double v3, double v4, double v5) {
+            return new GlowParticle(world, v, v1, v2, v3, v4, v5);
         }
     }
 }

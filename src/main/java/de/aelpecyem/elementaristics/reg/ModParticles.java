@@ -2,8 +2,8 @@ package de.aelpecyem.elementaristics.reg;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.client.fx.particle.MagicGlowParticle;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.BubbleParticle;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -26,26 +26,23 @@ import org.lwjgl.opengl.GL11;
 @Mod.EventBusSubscriber(modid = Elementaristics.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModParticles {
     @ObjectHolder(Elementaristics.MODID + ":glow")
-    public static final BasicParticleType GLOW = new BasicParticleType(false);
+    public static final ParticleType GLOW = new BasicParticleType(true).setRegistryName(Elementaristics.MODID, "glow");
 
     @OnlyIn(Dist.CLIENT)
     public void init(){
         Elementaristics.LOGGER.log(Level.INFO, "Registering particle factories...");
-        ParticleManager particles = Minecraft.getInstance().particles;
 
-        //particles.registerFactory(GLOW, MagicGlowParticle.Factory::new); todo fix the particle stuff later, probabs by redoing it :(
+        ParticleManager particles = Minecraft.getInstance().particles;
+        particles.registerFactory(GLOW, (ParticleManager.IParticleMetaFactory) BubbleParticle.Factory::new); //todo fix the particle stuff later, probabs by redoing it :(
     }
 
     @SubscribeEvent
     public static void registerParticles(RegistryEvent.Register<ParticleType<?>> register) {
         Elementaristics.LOGGER.log(Level.INFO, "Registering particles...");
-
-        //register.getRegistry().register(GLOW.setRegistryName("glow"));
+        register.getRegistry().register(GLOW);
     }
 
-
-
-    IParticleRenderType BRIGHT = new IParticleRenderType() {
+    public static IParticleRenderType BRIGHT = new IParticleRenderType() {
         @Override
         public void beginRender(BufferBuilder bufferBuilder, TextureManager textureManager) {
             GlStateManager.enableAlphaTest(); //enableAlpha();
@@ -54,7 +51,7 @@ public class ModParticles {
             GlStateManager.disableCull();
             GlStateManager.depthMask(false);
 
-            //bind texture if weird
+            //           textureManager.bindTexture(ParticleHandler.PARTICLE_TEX);
 
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
@@ -76,7 +73,7 @@ public class ModParticles {
         }
     };
 
-    IParticleRenderType DARKEN = new IParticleRenderType() {
+    public static IParticleRenderType DARKEN = new IParticleRenderType() {
         @Override
         public void beginRender(BufferBuilder bufferBuilder, TextureManager textureManager) {
             GlStateManager.enableAlphaTest(); //enableAlpha();
@@ -85,7 +82,7 @@ public class ModParticles {
             GlStateManager.disableCull();
             GlStateManager.depthMask(false);
 
-            //todo bind texture if weird, look at IParticleRenderType for that
+            //textureManager.bindTexture(ParticleHandler.PARTICLE_TEX);
 
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
