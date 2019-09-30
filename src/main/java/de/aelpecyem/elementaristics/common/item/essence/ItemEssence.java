@@ -39,9 +39,13 @@ public class ItemEssence extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-
-        System.out.println("Aspect String: " + playerIn.getHeldItem(handIn).getTag().getString(ASPECT_TAG));
-        System.out.println("Aspect: " + ItemEssence.getAspect(playerIn.getHeldItem(handIn)));
+        if (worldIn.isRemote) {
+            if (playerIn.isSneaking()) {
+                Elementaristics.proxy.giveVision("test");
+            } else {
+                Elementaristics.particles.spawnStandardParticle(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ);
+            }
+        }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 

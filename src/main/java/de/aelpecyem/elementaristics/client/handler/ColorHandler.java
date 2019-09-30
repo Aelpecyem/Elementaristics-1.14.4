@@ -1,11 +1,9 @@
-package de.aelpecyem.elementaristics.client.fx.handler;
+package de.aelpecyem.elementaristics.client.handler;
 
 import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.common.item.essence.ItemEssence;
 import de.aelpecyem.elementaristics.reg.ModItems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;

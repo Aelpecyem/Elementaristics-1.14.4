@@ -2,16 +2,24 @@ package de.aelpecyem.elementaristics.reg;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.client.particle.GlowParticle;
+import de.aelpecyem.elementaristics.client.particle.ModParticle;
+import de.aelpecyem.elementaristics.client.particle.mode.ParticleModes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.BubbleParticle;
 import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
@@ -20,6 +28,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Supplier;
 
 
 @ObjectHolder(Elementaristics.MODID)
@@ -33,7 +45,7 @@ public class ModParticles {
         Elementaristics.LOGGER.log(Level.INFO, "Registering particle factories...");
 
         ParticleManager particles = Minecraft.getInstance().particles;
-        particles.registerFactory(GLOW, (ParticleManager.IParticleMetaFactory) BubbleParticle.Factory::new); //todo fix the particle stuff later, probabs by redoing it :(
+        particles.registerFactory(GLOW, (ParticleManager.IParticleMetaFactory) BubbleParticle.Factory::new); //todo fix the particle factory
     }
 
     @SubscribeEvent
@@ -42,61 +54,152 @@ public class ModParticles {
         register.getRegistry().register(GLOW);
     }
 
-    public static IParticleRenderType BRIGHT = new IParticleRenderType() {
-        @Override
-        public void beginRender(BufferBuilder bufferBuilder, TextureManager textureManager) {
-            GlStateManager.enableAlphaTest(); //enableAlpha();
-            GlStateManager.enableBlend();
-            GlStateManager.alphaFunc(516, 0.003921569F);
-            GlStateManager.disableCull();
-            GlStateManager.depthMask(false);
+    //-----PARTICLE SPAWNING---------
+    public void spawnParticle(GlowParticle particle) {
+        Handler.spawnParticle(() -> particle);
+    }
 
-            //           textureManager.bindTexture(ParticleHandler.PARTICLE_TEX);
+    public void spawnStandardParticle(World world, double x, double y, double z, int color) {
+        GlowParticle particle = new GlowParticle(world, x, y, z, world.rand.nextGaussian() * 0.02D,
+                world.rand.nextGaussian() * 0.02D,
+                world.rand.nextGaussian() * 0.02D, 120, color, 1, 1, 0, false, true, GlowParticle.EnumFadeMode.OUT); // out
+        spawnParticle(particle);
+    }
 
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-            bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+    public void spawnStandardParticle(World world, double x, double y, double z) {
+        GlowParticle particle = new GlowParticle(world, x, y, z, 0.005,
+                -0.01,
+                0.1, 2400, 19456, 1, 1, 0, false, true, GlowParticle.EnumFadeMode.IN_OUT); //in out
+        particle.setMode(ParticleModes.TEST);
+        spawnParticle(particle);
+    }
+
+
+    //-----PARTICLE RENDER STUFF-----
+    public static class Handler {
+        private static final List<Particle> PARTICLES = new CopyOnWriteArrayList<>();
+
+        public static void spawnParticle(Supplier<GlowParticle> particle) {
+        /*Config.EnumParticles particleAmount = Config.client.particleAmount; todo: implement this once i finally get myself to add a config
+        switch (particleAmount) {
+            case STANDARD:
+                break;
+            case REDUCED:
+                if (mc.world.rand.nextInt(3) != 0) {
+                    return;
+                }
+                break;
+            case MINIMAL:
+                if (mc.world.rand.nextInt(10) != 0) {
+                    return;
+                }
+                break;
+        }*/
+            PARTICLES.add(particle.get());
         }
 
-        @Override
-        public void finishRender(Tessellator tessellator) {
-            tessellator.draw();
-
-            GlStateManager.enableCull();
-            GlStateManager.depthMask(true);
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA); //ONE_MINUS_SRC_ALPHA
-            GlStateManager.disableBlend();
-            GlStateManager.alphaFunc(516, 0.1F);
-        }
-        @Override
-        public String toString() {
-            return "ElEM_BRIGHT";
-        }
-    };
-
-    public static IParticleRenderType DARKEN = new IParticleRenderType() {
-        @Override
-        public void beginRender(BufferBuilder bufferBuilder, TextureManager textureManager) {
-            GlStateManager.enableAlphaTest(); //enableAlpha();
-            GlStateManager.enableBlend();
-            GlStateManager.alphaFunc(516, 0.003921569F);
-            GlStateManager.disableCull();
-            GlStateManager.depthMask(false);
-
-            //textureManager.bindTexture(ParticleHandler.PARTICLE_TEX);
-
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+        public static void updateParticles() {
+            updateList(PARTICLES);
         }
 
-        @Override
-        public void finishRender(Tessellator tessellator) {
-            tessellator.draw();
-
-            GlStateManager.enableCull();
-            GlStateManager.depthMask(true);
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA); //ONE_MINUS_SRC_ALPHA
-            GlStateManager.disableBlend();
-            GlStateManager.alphaFunc(516, 0.1F);
+        private static void updateList(List<Particle> particles) {
+            for (int i = particles.size() - 1; i >= 0; i--) {
+                Particle particle = particles.get(i);
+                particle.tick();
+                if (!particle.isAlive())
+                    particles.remove(i);
+            }
         }
-    };
+
+        public static void renderParticle(float parTicks) {
+            Minecraft mc = Minecraft.getInstance();
+            PlayerEntity player = mc.player;
+
+            if (player != null) {
+                ActiveRenderInfo info = mc.getRenderManager().info;//new ActiveRenderInfo();
+                float rotationX = MathHelper.cos(info.getYaw() * 0.017453292F);
+                float rotationYZ = MathHelper.sin(info.getYaw() * 0.017453292F);
+                float rotationXY = -rotationYZ * MathHelper.sin(info.getPitch() * 0.017453292F);
+                float rotationXZ = rotationX * MathHelper.sin(info.getPitch() * 0.017453292F);
+                float rotationZ = MathHelper.cos(info.getPitch() * 0.017453292F);
+
+                Tessellator tesser = Tessellator.getInstance();
+                BufferBuilder buffer = tesser.getBuffer();
+                for (Particle particle : PARTICLES) {
+                    if (particle instanceof ModParticle)
+                        mc.textureManager.bindTexture(((ModParticle) particle).getTexture());
+                    particle.getRenderType().beginRender(buffer, mc.textureManager);
+                    particle.renderParticle(buffer, info, parTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+                    particle.getRenderType().finishRender(tesser);
+                }
+
+            }
+        }
+
+        public static int getParticleAmount(boolean depth) {
+            return PARTICLES.size();
+        }
+
+        public static void clearParticles() {
+            if (!PARTICLES.isEmpty())
+                PARTICLES.clear();
+        }
+    }
+
+    public static class RenderTypes {
+        public static IParticleRenderType BRIGHT = new IParticleRenderType() {
+            @Override
+            public void beginRender(BufferBuilder bufferBuilder, TextureManager textureManager) {
+                GlStateManager.enableAlphaTest();
+                GlStateManager.enableBlend();
+                GlStateManager.alphaFunc(516, 0.003921569F);
+                GlStateManager.disableCull();
+                GlStateManager.depthMask(false);
+
+                GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+                bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+            }
+
+            @Override
+            public void finishRender(Tessellator tessellator) {
+                tessellator.draw();
+
+                GlStateManager.enableCull();
+                GlStateManager.depthMask(true);
+                GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA); //ONE_MINUS_SRC_ALPHA
+                GlStateManager.disableBlend();
+                GlStateManager.alphaFunc(516, 0.1F);
+            }
+
+            @Override
+            public String toString() {
+                return "ElEM_BRIGHT";
+            }
+        };
+
+        public static IParticleRenderType DARKEN = new IParticleRenderType() {
+            @Override
+            public void beginRender(BufferBuilder bufferBuilder, TextureManager textureManager) {
+                GlStateManager.enableAlphaTest();
+                GlStateManager.enableBlend();
+                GlStateManager.alphaFunc(516, 0.003921569F);
+                GlStateManager.disableCull();
+                GlStateManager.depthMask(false);
+
+                GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+            }
+
+            @Override
+            public void finishRender(Tessellator tessellator) {
+                tessellator.draw();
+
+                GlStateManager.enableCull();
+                GlStateManager.depthMask(true);
+                GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA); //ONE_MINUS_SRC_ALPHA
+                GlStateManager.disableBlend();
+                GlStateManager.alphaFunc(516, 0.1F);
+            }
+        };
+    }
 }
