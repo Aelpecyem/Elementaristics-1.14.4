@@ -27,13 +27,6 @@ public class ParticleRenderHandler {
         if (Minecraft.getInstance().world == null) {
             ModParticles.Handler.clearParticles();
         } else if (!Minecraft.getInstance().isGamePaused() && Minecraft.getInstance().renderViewEntity != null) {
-            if (Minecraft.getInstance().renderViewEntity.isSneaking()) {
-                Elementaristics.proxy.giveVision("test");
-            } else {
-                Elementaristics.particles.spawnStandardParticle(Minecraft.getInstance().renderViewEntity.world, Minecraft.getInstance().renderViewEntity.posX, Minecraft.getInstance().renderViewEntity.posY, Minecraft.getInstance().renderViewEntity.posZ);
-            }
-            // GlowParticle particle = new GlowParticle(Minecraft.getInstance().world, Minecraft.getInstance().renderViewEntity.posX, Minecraft.getInstance().renderViewEntity.posY, Minecraft.getInstance().renderViewEntity.posZ, 0, 0, 0);//, 10415, 4, 1000, 0, true, true, 0.8F, false);
-            // ModParticles.Handler.spawnParticle(() -> particle);
             Minecraft.getInstance().getProfiler().startSection(() -> Elementaristics.MODID + ":updateParticles");
             ModParticles.Handler.updateParticles();
             Minecraft.getInstance().getProfiler().endSection();

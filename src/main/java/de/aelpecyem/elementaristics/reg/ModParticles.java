@@ -6,7 +6,6 @@ import de.aelpecyem.elementaristics.client.particle.GlowParticle;
 import de.aelpecyem.elementaristics.client.particle.ModParticle;
 import de.aelpecyem.elementaristics.client.particle.mode.ParticleModes;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.BubbleParticle;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
@@ -16,8 +15,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -37,21 +36,21 @@ import java.util.function.Supplier;
 @ObjectHolder(Elementaristics.MODID)
 @Mod.EventBusSubscriber(modid = Elementaristics.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModParticles {
-    @ObjectHolder(Elementaristics.MODID + ":glow")
-    public static final ParticleType GLOW = new BasicParticleType(true).setRegistryName(Elementaristics.MODID, "glow");
+    //@ObjectHolder(Elementaristics.MODID + ":glow")
+    //public static final ParticleType GLOW = new BasicParticleType(true).setRegistryName(Elementaristics.MODID, "glow");
 
     @OnlyIn(Dist.CLIENT)
     public void init(){
         Elementaristics.LOGGER.log(Level.INFO, "Registering particle factories...");
 
         ParticleManager particles = Minecraft.getInstance().particles;
-        particles.registerFactory(GLOW, (ParticleManager.IParticleMetaFactory) BubbleParticle.Factory::new); //todo fix the particle factory
+        //particles.registerFactory(GLOW, (ParticleManager.IParticleMetaFactory) BubbleParticle.Factory::new); //todo fix the particle factory
     }
 
     @SubscribeEvent
     public static void registerParticles(RegistryEvent.Register<ParticleType<?>> register) {
         Elementaristics.LOGGER.log(Level.INFO, "Registering particles...");
-        register.getRegistry().register(GLOW);
+        //register.getRegistry().register(GLOW);
     }
 
     //-----PARTICLE SPAWNING---------
@@ -67,13 +66,16 @@ public class ModParticles {
     }
 
     public void spawnStandardParticle(World world, double x, double y, double z) {
-        GlowParticle particle = new GlowParticle(world, x, y, z, 0.005,
-                -0.01,
-                0.1, 2400, 19456, 1, 1, 0, false, true, GlowParticle.EnumFadeMode.IN_OUT); //in out
+        GlowParticle particle = new GlowParticle(world, x, y, z, 0,
+                -0.1,
+                0.1, 4000, 19456, 1, 3, 0, false, true, GlowParticle.EnumFadeMode.IN_OUT); //in out
         particle.setMode(ParticleModes.TEST);
         spawnParticle(particle);
     }
 
+    public void spawnAmbientBlockParticles(World world, BlockPos pos, int color) {
+
+    }
 
     //-----PARTICLE RENDER STUFF-----
     public static class Handler {

@@ -24,6 +24,7 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
     public ParticleMode mode = ParticleModes.STANDARD;
     public EnumFadeMode fadeMode = EnumFadeMode.NONE;
     public boolean shrinkAlpha = false;
+    public float desiredScale;
 
     public GlowParticle(World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ) {
         super(world, posX, posY, posZ, motionX, motionY, motionZ);
@@ -34,6 +35,7 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
         this.particleBlue = 0.5F;//(float) motionZ;
         this.maxAge = this.rand.nextInt(20) + 10;
         this.particleAlpha = 1.0F;
+        this.desiredScale = particleScale;
     }
 
     public GlowParticle(World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, int lifetime, int color, float alpha, float scale, float gravity, boolean collision, boolean shrinkWithAlpha, EnumFadeMode fadeMode) {
@@ -44,10 +46,11 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
         this.particleGreen = (((color >> 8) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
         this.particleBlue = ((color & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
         this.maxAge = lifetime;
-        this.particleAlpha = 1.0F; //alpha; todo fix alpha
+        this.particleAlpha = alpha; //todo fix alpha
         this.canCollide = collision;
         this.fadeMode = fadeMode;
         this.shrinkAlpha = shrinkWithAlpha;
+        this.desiredScale = particleScale;
         //todo work on the "AI" and params stuff later, add spawning methods in ModParticles, move the handling done in ParticleHandler to ModParticles, tick stuff etc.
     }
 
@@ -59,7 +62,7 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
         this.particleGreen = (((color >> 8) & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
         this.particleBlue = ((color & 255) / 255F) * (1F - this.rand.nextFloat() * 0.25F);
         this.maxAge = lifetime;
-        this.particleAlpha = 1.0F; //alpha;
+        this.particleAlpha = alpha;
         this.canCollide = collision;
         this.followPosition = true;
         this.xTo = posXTo;
@@ -67,6 +70,7 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
         this.zTo = posZTo;
         this.fadeMode = fadeMode;
         this.shrinkAlpha = shrinkWithAlpha;
+        this.desiredScale = particleScale;
     }
 
     public ParticleMode getMode() {
@@ -96,12 +100,15 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
 
     @Override
     public void tick() {
+        if (mode != null) {
+            mode.tick(this);
+        }
         if (mode == null || !mode.overridesCompletely()) {
             if (followPosition) {
                 double velX = motionX = (xTo - posX) / 20;
                 double velY = motionY = (yTo - posY) / 20;
                 double velZ = motionZ = (zTo - posZ) / 20;
-                double vel = Math.sqrt(Math.abs(velX) + Math.abs(velY) + Math.abs(velZ));
+                double vel = (Math.abs(velX) + Math.abs(velY) + Math.abs(velZ)) / 3F;
                 if (vel > 0.1) {
                     double percentageX = velX / vel;
                     double percentageY = velY / vel;
@@ -128,12 +135,13 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
                 this.move(this.motionX, this.motionY, this.motionZ);
 
                 float lifeRatio = (float) this.age / (float) this.maxAge; //in-out stuff
-                lifeRatio = fadeMode == EnumFadeMode.IN_OUT ? Math.abs(0.5F - lifeRatio) * 2 : fadeMode == EnumFadeMode.IN ? 1 - lifeRatio : lifeRatio;
+                lifeRatio = fadeMode == EnumFadeMode.IN_OUT ? 1 - (0.5F - Math.abs(0.5F - lifeRatio)) * 2 : fadeMode == EnumFadeMode.IN ? 1 - lifeRatio : lifeRatio;
+                System.out.println(lifeRatio);
                 if (this.fadeMode != EnumFadeMode.NONE) { //todo fix particle alpha
-                    this.particleAlpha = particleAlpha - (lifeRatio * particleAlpha);
+                    this.particleAlpha = 1;//particleAlpha - (lifeRatio * particleAlpha); //possibly the alpha wasn't actually broken?
                 }
                 if (this.fadeMode != EnumFadeMode.NONE && this.shrinkAlpha) {
-                    this.particleScale = this.particleScale - (this.particleScale * lifeRatio);
+                    this.particleScale = this.desiredScale * (1 - lifeRatio);
                 }
 
             }
@@ -147,9 +155,6 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
             }
         }
 
-        if (mode != null) {
-            mode.tick(this);
-        }
     }
 
     @Override

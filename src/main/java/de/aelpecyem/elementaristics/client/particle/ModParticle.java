@@ -3,13 +3,13 @@ package de.aelpecyem.elementaristics.client.particle;
 import de.aelpecyem.elementaristics.reg.ModParticles;
 import de.aelpecyem.elementaristics.util.ColorUtil;
 import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.particle.TexturedParticle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public abstract class ModParticle extends SpriteTexturedParticle {
+public abstract class ModParticle extends TexturedParticle {
     public ModParticle(World world, double x, double y, double z) {
         super(world, x, y, z);
     }
