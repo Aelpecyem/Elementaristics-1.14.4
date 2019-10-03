@@ -3,16 +3,12 @@ package de.aelpecyem.elementaristics.common.item.essence;
 import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.reg.ModItems;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 
 public class ItemEssence extends Item {
     public static final String ASPECT_TAG = "aspect";
@@ -35,18 +31,6 @@ public class ItemEssence extends Item {
 
     public static ItemStack withAspect(Aspect aspect){
         return withAspect(1, aspect);
-    }
-
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        if (worldIn.isRemote) {
-            if (playerIn.isSneaking()) {
-                Elementaristics.proxy.giveVision("test");
-            } else {
-                Elementaristics.particles.spawnStandardParticle(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ);
-            }
-        }
-        return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
     public static boolean setUp(ItemStack stack){

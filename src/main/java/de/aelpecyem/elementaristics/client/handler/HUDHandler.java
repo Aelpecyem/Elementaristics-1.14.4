@@ -48,7 +48,8 @@ public class HUDHandler {
             int poxY = event.getWindow().getScaledHeight() / 2 - 256 / 2;
             float alpha = (0.5F - Math.abs(0.5F - vision_progress)) * 1.8F;
             drawColoredTexturedModalRect(posX, poxY, 0, 0, 256, 256, Color.WHITE, alpha, tex);
-            vision_progress += 0.003F;
+            if (!Minecraft.getInstance().isGamePaused())
+                vision_progress += 0.003F;
         } else {
             vision_progress = 0;
         }

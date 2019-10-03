@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.math.BlockPos;
@@ -67,14 +68,37 @@ public class ModParticles {
 
     public void spawnStandardParticle(World world, double x, double y, double z) {
         GlowParticle particle = new GlowParticle(world, x, y, z, 0,
-                -0.1,
-                0.1, 4000, 19456, 1, 3, 0, false, true, GlowParticle.EnumFadeMode.IN_OUT); //in out
-        particle.setMode(ParticleModes.TEST);
+                0.005,
+                0, 4000, 16711680, 1, 2, 0, false, true, GlowParticle.EnumFadeMode.NONE); //in out
+        particle.setMode(ParticleModes.RAINBOWS);
+        spawnParticle(particle);
+    }
+
+    public void spawnEntityParticles(Entity entityIn, int color) {
+        double motionX = entityIn.world.rand.nextGaussian() * 0.002D;
+        double motionY = entityIn.world.rand.nextGaussian() * 0.002D;
+        double motionZ = entityIn.world.rand.nextGaussian() * 0.002D;
+        GlowParticle particle = new GlowParticle(
+                entityIn.world,
+                entityIn.posX + entityIn.world.rand.nextFloat() * entityIn.getWidth()
+                        * 2.0F - entityIn.getWidth(),
+                entityIn.posY + 0.5D + entityIn.world.rand.nextFloat()
+                        * entityIn.getHeight(),
+                entityIn.posZ + entityIn.world.rand.nextFloat() * entityIn.getWidth()
+                        * 2.0F - entityIn.getWidth(),
+                motionX,
+                motionY,
+                motionZ,
+                160, color, 1F, 0.1F + entityIn.world.rand.nextFloat() / 40F, 0F, true, true, GlowParticle.EnumFadeMode.OUT);
         spawnParticle(particle);
     }
 
     public void spawnAmbientBlockParticles(World world, BlockPos pos, int color) {
-
+        double motionX = world.rand.nextGaussian() * 0.001D;
+        double motionY = world.rand.nextGaussian() * 0.001D;
+        double motionZ = world.rand.nextGaussian() * 0.001D;
+        GlowParticle particle = new GlowParticle(world, pos.getX() + world.rand.nextFloat(), pos.getY() + world.rand.nextFloat(), pos.getZ() + world.rand.nextFloat(), motionX, motionY, motionZ, 160, color, 1F, 0.1F, 0, false, true, GlowParticle.EnumFadeMode.IN_OUT);
+        spawnParticle(particle);
     }
 
     //-----PARTICLE RENDER STUFF-----
@@ -159,7 +183,7 @@ public class ModParticles {
                 GlStateManager.depthMask(false);
 
                 GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-                bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+                bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP); //POSITION_TEX_COLOR PARTICLE_POSITION_TEX_COLOR_LMAP
             }
 
             @Override
