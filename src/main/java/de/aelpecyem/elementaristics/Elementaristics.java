@@ -1,5 +1,6 @@
 package de.aelpecyem.elementaristics;
 
+import de.aelpecyem.elementaristics.common.capability.CapabilityElementarstics;
 import de.aelpecyem.elementaristics.common.item.essence.ItemEssence;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.proxy.ClientProxy;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -65,6 +67,8 @@ public class Elementaristics {
 
     private void preInit(final FMLCommonSetupEvent event) {
         LOGGER.info("Starting pre-init...");
+        CapabilityManager.INSTANCE.register(CapabilityElementarstics.class, new CapabilityElementarstics(), CapabilityElementarstics::new);
+
         //common stuff
     }
 

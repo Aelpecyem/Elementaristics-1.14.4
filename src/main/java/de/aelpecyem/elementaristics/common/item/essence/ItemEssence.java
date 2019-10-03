@@ -1,14 +1,19 @@
 package de.aelpecyem.elementaristics.common.item.essence;
 
 import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.common.capability.CapabilityElementarstics;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.reg.ModItems;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 
 public class ItemEssence extends Item {
     public static final String ASPECT_TAG = "aspect";
@@ -45,6 +50,18 @@ public class ItemEssence extends Item {
             stack.getTag().putString(ASPECT_TAG, "");
         }
         return false;
+    }
+
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        //  CapabilityElementarstics cap = playerIn.getCapability(CapabilityElementarstics.CAPABILITY).orElse(null);//.cast().orElse(null);
+        CapabilityElementarstics cap = CapabilityElementarstics.getCapability(playerIn);
+        System.out.println(cap.currentMagan++);
+        //if (elemCap != null){
+        //    elemCap.currentMagan++;
+        //    System.out.println(elemCap.currentMagan);
+        //}
+        return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
     public static ItemStack setAspect(Aspect aspect, ItemStack stack){
