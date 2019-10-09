@@ -2,6 +2,7 @@ package de.aelpecyem.elementaristics.client.handler;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.common.capability.ElementaristicsCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -21,20 +22,16 @@ import java.awt.*;
 public class HUDHandler {
     public static String current_vision = "";
     public static float vision_progress = 0;
+    public static final ResourceLocation HUD_TEXTURE = new ResourceLocation(Elementaristics.MODID, "textures/gui/hud_elements.png");
+
 
     @SubscribeEvent
     public static void onRenderHud(RenderGameOverlayEvent.Post event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.EXPERIENCE && !event.isCancelable()) {
-            //renderMaganBar(event);
+            renderMaganBar(event);
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && !event.isCancelable()) {
             renderVision(event);
-        }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT && !event.isCancelable()) {
-            //renderSlimeTasks(event);
-            //renderRiteHud(event);
-            //renderEnergyHud(event);
-            //renderDeityHud(event); todo probabs make the HUDs nicer
         }
     }
 
@@ -55,6 +52,25 @@ public class HUDHandler {
         }
     }
 
+    public static void renderMaganBar(RenderGameOverlayEvent.Post event) {
+        Minecraft mc = Minecraft.getInstance();
+        if (!mc.player.isCreative() && !mc.player.isSpectator()) { //Config.client.showBar &&
+            ElementaristicsCapability caps = ElementaristicsCapability.getCapability(mc.player); //mc.player.getCapability(PlayerCapProvider.ELEMENTARISTICS_CAP, null);
+            if (caps.ascensionStage > 0) {
+                int posX = event.getWindow().getScaledWidth() / 2 - 93; // + 10;
+                int poxY = event.getWindow().getScaledHeight() - 31;
+                float mult = caps.currentMagan / (float) ElementaristicsCapability.MAX_MAGAN_BASE;
+                Color color = new Color(145674);//)ColorUtil.convertIntToColor(SoulInit.getSoulFromId(caps.getSoulId()).getParticleColor());
+                //if (caps.getTimeStunted() > 0) {
+                //   color = ColorUtil.blend(color, Color.gray, 1 - Math.min(0.1 * (float) caps.getTimeStunted() / 10F, 0.8), Math.min(0.1 * (float) caps.getTimeStunted() / 10F, 0.8));
+                //}
+                //   mc.renderEngine.bindTexture(HUD_TEXTURE);
+                drawColoredTexturedModalRect(posX, poxY, 0, 0, Math.round(186 * mult), 9, color, 1, HUD_TEXTURE);
+            }
+        }
+    }
+
+
     public static void drawColoredTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, Color color, float alpha, ResourceLocation resTex) {
         GlStateManager.pushMatrix();
         GlStateManager.enableNormalize();
@@ -74,6 +90,5 @@ public class HUDHandler {
         GlStateManager.disableBlend();
         GlStateManager.disableNormalize();
         GlStateManager.popMatrix();
-        //Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
     }
 }

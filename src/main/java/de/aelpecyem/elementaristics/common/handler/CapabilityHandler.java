@@ -1,10 +1,11 @@
 package de.aelpecyem.elementaristics.common.handler;
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.common.capability.CapabilityElementarstics;
+import de.aelpecyem.elementaristics.common.capability.ElementaristicsCapability;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -14,6 +15,13 @@ public class CapabilityHandler {
 
     @SubscribeEvent
     public static void attachCapability(AttachCapabilitiesEvent event) {
-        if (event.getObject() instanceof PlayerEntity) event.addCapability(CAP, new CapabilityElementarstics());
+        if (event.getObject() instanceof PlayerEntity) event.addCapability(CAP, new ElementaristicsCapability());
+    }
+
+    @SubscribeEvent
+    public static void update(LivingEvent.LivingUpdateEvent event) {
+        if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof PlayerEntity) {
+            ElementaristicsCapability.Util.sync((PlayerEntity) event.getEntityLiving());
+        }
     }
 }

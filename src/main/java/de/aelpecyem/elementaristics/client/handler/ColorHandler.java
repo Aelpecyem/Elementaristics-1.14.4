@@ -1,7 +1,7 @@
 package de.aelpecyem.elementaristics.client.handler;
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.common.item.essence.ItemEssence;
+import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
 import de.aelpecyem.elementaristics.reg.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,8 +17,8 @@ public class ColorHandler{
     @SubscribeEvent
     public static void registerItemColors(ColorHandlerEvent.Item event) {
         event.getItemColors().register((stack, tint) -> {
-            if (stack.getItem() instanceof ItemEssence)
-                return ItemEssence.getAspect(stack) != null ? ItemEssence.getAspect(stack).getColor() : Minecraft.getInstance().world.rand.nextInt(16777215);
+            if (stack.getItem() instanceof EssenceItem)
+                return EssenceItem.getAspect(stack) != null ? EssenceItem.getAspect(stack).getColor() : Minecraft.getInstance().world.rand.nextInt(16777215);
             return 16777215;
         }, ModItems.essence);
     }

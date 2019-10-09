@@ -1,7 +1,7 @@
 package de.aelpecyem.elementaristics.common.item.essence;
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.common.capability.CapabilityElementarstics;
+import de.aelpecyem.elementaristics.common.capability.ElementaristicsCapability;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.reg.ModItems;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,10 +15,10 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
-public class ItemEssence extends Item {
+public class EssenceItem extends Item {
     public static final String ASPECT_TAG = "aspect";
 
-    public ItemEssence() {
+    public EssenceItem() {
         super(new Item.Properties().maxStackSize(64));
         setRegistryName(new ResourceLocation(Elementaristics.MODID, "essence"));
     }
@@ -30,7 +30,7 @@ public class ItemEssence extends Item {
 
     public static ItemStack withAspect(int count, Aspect aspect){
         ItemStack stack = new ItemStack(ModItems.essence, count);
-        ItemEssence.setAspect(aspect, stack);
+        EssenceItem.setAspect(aspect, stack);
         return stack;
     }
 
@@ -54,13 +54,9 @@ public class ItemEssence extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        //  CapabilityElementarstics cap = playerIn.getCapability(CapabilityElementarstics.CAPABILITY).orElse(null);//.cast().orElse(null);
-        CapabilityElementarstics cap = CapabilityElementarstics.getCapability(playerIn);
-        System.out.println(cap.currentMagan++);
-        //if (elemCap != null){
-        //    elemCap.currentMagan++;
-        //    System.out.println(elemCap.currentMagan);
-        //}
+        if (!worldIn.isRemote)
+            ElementaristicsCapability.Util.setMagan(worldIn.rand.nextInt(100), playerIn);
+        System.out.println("Client? " + worldIn.isRemote + " Magan: " + ElementaristicsCapability.Util.getMagan(playerIn));
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 

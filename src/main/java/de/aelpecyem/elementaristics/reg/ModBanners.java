@@ -1,20 +1,16 @@
 package de.aelpecyem.elementaristics.reg;
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.common.item.essence.ItemEssence;
+import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
-import net.minecraft.block.LoomBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.BannerPattern;
-import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ModBanners{
     private static List<BannerPattern> patterns = new ArrayList<>();
@@ -22,7 +18,7 @@ public class ModBanners{
     public static void init() { //todo, those need to get craftable
         Elementaristics.LOGGER.info("Registering banner patterns...");
 
-        pattern_glory = addCraftingPattern("glory", ItemEssence.withAspect(Aspect.LIGHT)); //todo, somehow implement the crafting recipes
+        pattern_glory = addCraftingPattern("glory", EssenceItem.withAspect(Aspect.LIGHT)); //todo, somehow implement the crafting recipes
     }
 
     public static BannerPattern addCraftingPattern (String name, ItemStack craftingStack) {

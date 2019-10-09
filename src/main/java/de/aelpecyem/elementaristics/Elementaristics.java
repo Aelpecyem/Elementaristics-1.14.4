@@ -1,8 +1,9 @@
 package de.aelpecyem.elementaristics;
 
-import de.aelpecyem.elementaristics.common.capability.CapabilityElementarstics;
-import de.aelpecyem.elementaristics.common.item.essence.ItemEssence;
+import de.aelpecyem.elementaristics.common.capability.ElementaristicsCapability;
+import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
+import de.aelpecyem.elementaristics.common.network.PacketHandler;
 import de.aelpecyem.elementaristics.proxy.ClientProxy;
 import de.aelpecyem.elementaristics.proxy.CommonProxy;
 import de.aelpecyem.elementaristics.reg.ModBlocks;
@@ -39,13 +40,13 @@ public class Elementaristics {
     public static final ItemGroup ELEMENTARISTICS_TAB = new ItemGroup(MODID) {
         @Override
         public ItemStack createIcon() {
-            return ItemEssence.withAspect(Aspect.MAGAN);
+            return EssenceItem.withAspect(Aspect.MAGAN);
         }
 
         @Override
         public void fill(NonNullList<ItemStack> items) {
             for (final Aspect aspect : Aspect.ASPECTS.values())
-                items.add(ItemEssence.withAspect(aspect));
+                items.add(EssenceItem.withAspect(aspect));
 
             super.fill(items);
 
@@ -67,14 +68,12 @@ public class Elementaristics {
 
     private void preInit(final FMLCommonSetupEvent event) {
         LOGGER.info("Starting pre-init...");
-        CapabilityManager.INSTANCE.register(CapabilityElementarstics.class, new CapabilityElementarstics(), CapabilityElementarstics::new);
-
-        //common stuff
+        CapabilityManager.INSTANCE.register(ElementaristicsCapability.class, new ElementaristicsCapability(), ElementaristicsCapability::new);
+        PacketHandler.initPackets();
     }
 
     private void postInit(final FMLLoadCompleteEvent event) {
         LOGGER.info("Starting post-init...");
-        //common stuff
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
