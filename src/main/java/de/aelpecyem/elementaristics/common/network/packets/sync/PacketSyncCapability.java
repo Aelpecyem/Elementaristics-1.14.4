@@ -12,24 +12,30 @@ import javax.annotation.Nonnull;
 
 public class PacketSyncCapability extends PacketBase<PacketSyncCapability> {
     private CompoundNBT data;
+    private int mode;
 
     public PacketSyncCapability() {
     }
 
-    public PacketSyncCapability(CompoundNBT data) {
+    public PacketSyncCapability(CompoundNBT data, int mode) {
         this.data = data;
+        this.mode = mode;
     }
 
     @Nonnull
     @Override
     public Encoder<PacketSyncCapability> encoder() {
-        return (pkt, buffer) -> PacketHandler.Util.writeNBTTag(buffer, pkt.data);
+        return (pkt, buffer) -> {
+            buffer.writeInt(pkt.mode);
+            PacketHandler.Util.writeNBTTag(buffer, pkt.data);
+        };
     }
 
     @Nonnull
     @Override
     public Decoder<PacketSyncCapability> decoder() {
-        return p -> new PacketSyncCapability(PacketHandler.Util.readNBTTag(p));
+        return p -> new PacketSyncCapability(PacketHandler.Util.readNBTTag(p), p.readInt());
+
     }
 
     @Nonnull
@@ -43,7 +49,7 @@ public class PacketSyncCapability extends PacketBase<PacketSyncCapability> {
             @Override
             public void handleClient(PacketSyncCapability packet, NetworkEvent.Context context) {
                 ElementaristicsCapability cap = ElementaristicsCapability.getCapability(Minecraft.getInstance().player);
-                cap.deserializeNBT(packet.data);
+                cap.readUpdatePacket(packet.data, packet.mode);
             }
         };
     }

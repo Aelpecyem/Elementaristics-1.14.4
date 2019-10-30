@@ -4,6 +4,7 @@ import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.common.capability.ElementaristicsCapability;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.reg.ModItems;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,6 +16,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class EssenceItem extends Item {
     public static final String ASPECT_TAG = "aspect";
 
@@ -23,9 +27,12 @@ public class EssenceItem extends Item {
         setRegistryName(new ResourceLocation(Elementaristics.MODID, "essence"));
     }
 
+
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
-        return new TranslationTextComponent(this.getTranslationKey(stack) + (getAspect(stack) != null ? "." + getAspect(stack).getName() : ""), new Object[0]); //super.getDisplayName(stack);
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        if (getAspect(stack) != null)
+            tooltip.add(new TranslationTextComponent(getAspect(stack).getUnlocalizedName()));
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     public static ItemStack withAspect(int count, Aspect aspect){
@@ -62,11 +69,11 @@ public class EssenceItem extends Item {
 
     public static ItemStack setAspect(Aspect aspect, ItemStack stack){
         setUp(stack);
-        stack.getTag().putString(ASPECT_TAG, aspect.getName());
+        stack.getTag().putString(ASPECT_TAG, aspect.getName().toString());
         return stack;
     }
 
     public static Aspect getAspect(ItemStack stack) {
-        return setUp(stack) ? Aspect.ASPECTS.get(stack.getTag().getString(ASPECT_TAG)) : null;
+        return setUp(stack) ? Aspect.ASPECTS.get(new ResourceLocation(stack.getTag().getString(ASPECT_TAG))) : null;
     }
 }

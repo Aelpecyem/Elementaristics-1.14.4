@@ -2,14 +2,6 @@
   "itemGroup.elementaristics": "Elementaristics",
 
   "item.elementaristics.essence": "Essence",
-  "item.elementaristics.essence.magan": "Magan Essence",
-  "item.elementaristics.essence.mana": "Mana Essence",
-  "item.elementaristics.essence.air": "Air Essence",
-  "item.elementaristics.essence.earth": "Earth Essence",
-  "item.elementaristics.essence.fire": "Fire Essence",
-  "item.elementaristics.essence.water": "Water Essence",
-  "item.elementaristics.essence.aether": "Aether Essence",
-
   "aspect.magan": "Magan",
   "aspect.mana": "Mana",
   "aspect.air": "Air",
@@ -27,6 +19,7 @@
   "block.elementaristics.smooth_stone_enriched_slab": "Enriched Smooth Stone Slab",
 
   "block.elementaristics.stone_enriched_stairs": "Enriched Stone Stairs",
-  "block.elementaristics.stonebricks_enriched_stairs": "Enriched Stone Brick Stairs"
+  "block.elementaristics.stonebricks_enriched_stairs": "Enriched Stone Brick Stairs",
+  "block.elementaristics.smooth_stone_enriched_stairs": "Enriched Smooth Stone Stairs"
 
 }

@@ -1,7 +1,10 @@
 package de.aelpecyem.elementaristics.common.capability;
 
+import de.aelpecyem.elementaristics.common.capability.ascension.AscensionProgress;
+import de.aelpecyem.elementaristics.common.capability.magan.MaganStorage;
 import de.aelpecyem.elementaristics.common.network.PacketHandler;
 import de.aelpecyem.elementaristics.common.network.packets.sync.PacketSyncCapability;
+import de.aelpecyem.elementaristics.util.SoulHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -13,23 +16,29 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class ElementaristicsCapability implements ICapabilitySerializable<CompoundNBT>, Capability.IStorage<ElementaristicsCapability> {
     @CapabilityInject(ElementaristicsCapability.class)
     public static final Capability<ElementaristicsCapability> CAPABILITY = null;
     private ElementaristicsCapability instance﻿;
     public static final int MAX_MAGAN_BASE = 100;
-    public int currentMagan = 0;
 
-    public int ascensionStage = 0; //In starndard ascension: 1 - Knowing, 2 - Destroying, 3 - Rethinking, 4 - Reshaping, 5 - Creating, 6 - Activating
+    public AscensionProgress ascensionProgress;
+    public MaganStorage maganStorage;
 
     //todo regen and max magan buffers --- add those later
-    //this also counts for souls
-    //also: packets
+    public ElementaristicsCapability(Random random) {
+        this.instance﻿ = this;
+        this.maganStorage = new MaganStorage();
+        this.ascensionProgress = new AscensionProgress();
+        ascensionProgress.setSoul(SoulHelper.getRandomSoulWithChance(random));
+    }
+
     public ElementaristicsCapability() {
         this.instance﻿ = this;
-        //set soul
-        //set max magan based on this
+        this.maganStorage = new MaganStorage();
+        this.ascensionProgress = new AscensionProgress();
     }
 
 
@@ -54,6 +63,11 @@ public class ElementaristicsCapability implements ICapabilitySerializable<Compou
         return (CompoundNBT) CAPABILITY.getStorage().writeNBT(CAPABILITY, this, null);
     }
 
+
+    public CompoundNBT writeUpdatePacket() {
+        return (CompoundNBT) CAPABILITY.getStorage().writeNBT(CAPABILITY, this, null);
+    }
+
     @Override
     public void deserializeNBT(CompoundNBT compoundNBT) {
         CAPABILITY.getStorage().readNBT(CAPABILITY, this, null, compoundNBT);
@@ -63,32 +77,79 @@ public class ElementaristicsCapability implements ICapabilitySerializable<Compou
     @Override
     public INBT writeNBT(Capability<ElementaristicsCapability> capability, ElementaristicsCapability instance, Direction direction) {
         CompoundNBT tag = new CompoundNBT();
-        tag.putInt("currentMagan", instance.currentMagan);
+        ascensionProgress.writeToNBT(tag);
+        maganStorage.writeToNBT(tag);
         return tag;
     }
 
     @Override
     public void readNBT(Capability<ElementaristicsCapability> capability, ElementaristicsCapability instance, Direction direction, INBT inbt) {
         CompoundNBT tag = (CompoundNBT) inbt;
-        instance.currentMagan = tag.getInt("currentMagan");
+        ascensionProgress = new AscensionProgress();
+        maganStorage = new MaganStorage();
+        ascensionProgress.readFromNBT(tag);
+        maganStorage.readFromNBT(tag);
+    }
+
+    public void readUpdatePacket(CompoundNBT data, int mode) {
+        if (mode == 1) {
+            maganStorage = new MaganStorage();
+            maganStorage.readFromNBT(data);
+            maganStorage.isDirty = false;
+        } else if (mode == 2) {
+            ascensionProgress = new AscensionProgress();
+            ascensionProgress.readFromNBT(data);
+            ascensionProgress.isDirty = false;
+        } else {
+            deserializeNBT(data);
+            maganStorage.isDirty = false;
+            ascensionProgress.isDirty = false;
+        }
+    }
+
+    public CompoundNBT writeUpdatePacket(int mode) {
+        if (mode == 1) {
+            maganStorage.isDirty = false;
+            return maganStorage.writeToNBT(new CompoundNBT());
+        } else if (mode == 2) {
+            ascensionProgress.isDirty = false;
+            return ascensionProgress.writeToNBT(new CompoundNBT());
+        } else {
+            maganStorage.isDirty = false;
+            ascensionProgress.isDirty = false;
+            return serializeNBT();
+        }
+    }
+
+    public int getMode() {
+        int mode = -1;
+        if (maganStorage.isDirty) {
+            mode = 1;
+            if (ascensionProgress.isDirty) return 0;
+        } else if (ascensionProgress.isDirty) {
+            mode = 2;
+        }
+        return mode;
     }
 
     public static class Util {
         public static void setMagan(int amount, @Nonnull PlayerEntity entity) {
             ElementaristicsCapability capability = getCapability(entity);
-            capability.currentMagan = amount;
+            capability.maganStorage.setCurrentMagan(amount);
         }
 
         public static int getMagan(@Nonnull PlayerEntity entity) {
-            return getCapability(entity).currentMagan;
+            return getCapability(entity).maganStorage.getCurrentMagan();
         }
 
-        public static void sync(PlayerEntity to, ElementaristicsCapability capability) {
-            PacketHandler.Util.sendToPlayer(to, new PacketSyncCapability(capability.serializeNBT()));
+        public static void syncAll(PlayerEntity to, ElementaristicsCapability capability) {
+            int mode = capability.getMode();
+            if (mode >= 0)
+                PacketHandler.Util.sendToPlayer(to, new PacketSyncCapability(capability.writeUpdatePacket(mode), mode));
         }
 
-        public static void sync(PlayerEntity to) {
-            sync(to, ElementaristicsCapability.getCapability(to));
+        public static void syncAll(PlayerEntity to) {
+            syncAll(to, ElementaristicsCapability.getCapability(to));
         }
     }
 }

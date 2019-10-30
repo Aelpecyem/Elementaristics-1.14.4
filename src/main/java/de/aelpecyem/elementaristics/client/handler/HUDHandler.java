@@ -56,15 +56,11 @@ public class HUDHandler {
         Minecraft mc = Minecraft.getInstance();
         if (!mc.player.isCreative() && !mc.player.isSpectator()) { //Config.client.showBar &&
             ElementaristicsCapability caps = ElementaristicsCapability.getCapability(mc.player); //mc.player.getCapability(PlayerCapProvider.ELEMENTARISTICS_CAP, null);
-            if (caps.ascensionStage > 0) {
+            if (caps.ascensionProgress.knowsSoul()) {
                 int posX = event.getWindow().getScaledWidth() / 2 - 93; // + 10;
                 int poxY = event.getWindow().getScaledHeight() - 31;
-                float mult = caps.currentMagan / (float) ElementaristicsCapability.MAX_MAGAN_BASE;
-                Color color = new Color(145674);//)ColorUtil.convertIntToColor(SoulInit.getSoulFromId(caps.getSoulId()).getParticleColor());
-                //if (caps.getTimeStunted() > 0) {
-                //   color = ColorUtil.blend(color, Color.gray, 1 - Math.min(0.1 * (float) caps.getTimeStunted() / 10F, 0.8), Math.min(0.1 * (float) caps.getTimeStunted() / 10F, 0.8));
-                //}
-                //   mc.renderEngine.bindTexture(HUD_TEXTURE);
+                float mult = caps.maganStorage.getCurrentMagan() / (float) ElementaristicsCapability.MAX_MAGAN_BASE;
+                Color color = new Color(145674);
                 drawColoredTexturedModalRect(posX, poxY, 0, 0, Math.round(186 * mult), 9, color, 1, HUD_TEXTURE);
             }
         }

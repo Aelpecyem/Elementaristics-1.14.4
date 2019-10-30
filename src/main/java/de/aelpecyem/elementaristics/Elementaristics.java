@@ -6,9 +6,7 @@ import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.common.network.PacketHandler;
 import de.aelpecyem.elementaristics.proxy.ClientProxy;
 import de.aelpecyem.elementaristics.proxy.CommonProxy;
-import de.aelpecyem.elementaristics.reg.ModBlocks;
-import de.aelpecyem.elementaristics.reg.ModItems;
-import de.aelpecyem.elementaristics.reg.ModParticles;
+import de.aelpecyem.elementaristics.reg.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -62,7 +60,6 @@ public class Elementaristics {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::postInit);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -70,6 +67,8 @@ public class Elementaristics {
         LOGGER.info("Starting pre-init...");
         CapabilityManager.INSTANCE.register(ElementaristicsCapability.class, new ElementaristicsCapability(), ElementaristicsCapability::new);
         PacketHandler.initPackets();
+        ModRecipes.init();
+        ModRegistries.init();
     }
 
     private void postInit(final FMLLoadCompleteEvent event) {
@@ -81,18 +80,11 @@ public class Elementaristics {
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
-        // some example code to dispatch IMC to another mod
-        /*InterModComms.sendTo(MODID, "helloworld", () -> {
-            LOGGER.info("Hello world from the MDK");
-            return "Hello world";
-        });*/
+
     }
 
     private void processIMC(final InterModProcessEvent event) {
-        // some example code to receive and process InterModComms from other mods
-       /* LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m -> m.getMessageSupplier().get()).
-                collect(Collectors.toList()));*/
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

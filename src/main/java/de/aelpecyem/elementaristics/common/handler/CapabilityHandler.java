@@ -15,13 +15,14 @@ public class CapabilityHandler {
 
     @SubscribeEvent
     public static void attachCapability(AttachCapabilitiesEvent event) {
-        if (event.getObject() instanceof PlayerEntity) event.addCapability(CAP, new ElementaristicsCapability());
+        if (event.getObject() instanceof PlayerEntity)
+            event.addCapability(CAP, new ElementaristicsCapability(((PlayerEntity) event.getObject()).getRNG()));
     }
 
     @SubscribeEvent
     public static void update(LivingEvent.LivingUpdateEvent event) {
         if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof PlayerEntity) {
-            ElementaristicsCapability.Util.sync((PlayerEntity) event.getEntityLiving());
+            ElementaristicsCapability.Util.syncAll((PlayerEntity) event.getEntityLiving());
         }
     }
 }

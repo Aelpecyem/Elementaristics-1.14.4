@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "elementaristics:stone_enriched"
+  },
+  "result": "elementaristics:smooth_stone_enriched",
+  "experience": 3.0,
+  "cookingtime": 40
+}

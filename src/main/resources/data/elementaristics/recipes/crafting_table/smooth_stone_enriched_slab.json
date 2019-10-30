@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "elementaristics:smooth_stone_enriched"
+    }
+  },
+  "result": {
+    "item": "elementaristics:smooth_stone_enriched_slab",
+    "count": 6
+  }
+}
