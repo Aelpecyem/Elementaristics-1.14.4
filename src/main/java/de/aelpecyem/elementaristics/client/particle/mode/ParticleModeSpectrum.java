@@ -9,7 +9,7 @@ import java.awt.*;
 public class ParticleModeSpectrum extends ParticleMode {
     @Override
     public void setUp(GlowParticle particle) {
-        int addition = particle.getRandom().nextInt(100);
+        int addition = particle.getRandom().nextInt(200);
         particle.setAge(particle.getAge() + addition);
         particle.setMaxAge(particle.getMaxAge() + addition);
         particle.setColor(0, 0, 1);
@@ -17,7 +17,7 @@ public class ParticleModeSpectrum extends ParticleMode {
 
     @Override
     public void tick(GlowParticle particle) {
-        float process = (particle.getAge() % 100) / 100F;
+        float process = (particle.getAge() % 300) / 300F;
         Color color = Color.getHSBColor(process, 1, 1);
         particle.setColor(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
     }

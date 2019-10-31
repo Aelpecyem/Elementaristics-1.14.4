@@ -63,23 +63,23 @@ public class ModParticles {
     public void spawnStandardParticle(World world, double x, double y, double z, int color) {
         GlowParticle particle = new GlowParticle(world, x, y, z, world.rand.nextGaussian() * 0.02D,
                 world.rand.nextGaussian() * 0.02D,
-                world.rand.nextGaussian() * 0.02D, 120, color, 0.9F, 0.8F, 0, false, true, GlowParticle.EnumFadeMode.OUT); // out
+                world.rand.nextGaussian() * 0.02D, 120, color, 0.9F, 0.8F, 0, true, true, GlowParticle.EnumFadeMode.OUT); // out
         spawnParticle(particle);
     }
 
-    public void spawnStandardParticle(World world, double x, double y, double z, @Nullable ParticleMode mode) {
-        GlowParticle particle = new GlowParticle(world, x, y, z, world.rand.nextGaussian() * 0.02D,
-                world.rand.nextGaussian() * 0.02D,
-                world.rand.nextGaussian() * 0.02D, 300, 16711680, 0.9F, 0.8F, 0, false, true, GlowParticle.EnumFadeMode.IN_OUT); //in out
+    public void spawnStandardParticle(World world, double x, double y, double z, @Nullable ParticleMode mode, double speedMult) {
+        GlowParticle particle = new GlowParticle(world, x, y, z, world.rand.nextGaussian() * speedMult,
+                world.rand.nextGaussian() * speedMult,
+                world.rand.nextGaussian() * speedMult, 400, 16711680, 0.9F, 0.8F, 0, true, false, GlowParticle.EnumFadeMode.OUT); //in out
         if (mode != null)
             particle.setMode(mode);
         spawnParticle(particle);
     }
 
-    public void spawnEntityParticles(Entity entityIn, int color) {
-        double motionX = entityIn.world.rand.nextGaussian() * 0.002D;
-        double motionY = entityIn.world.rand.nextGaussian() * 0.002D;
-        double motionZ = entityIn.world.rand.nextGaussian() * 0.002D;
+    public void spawnEntityParticles(Entity entityIn, int color, @Nullable ParticleMode mode, double speedMult) {
+        double motionX = entityIn.world.rand.nextGaussian() * speedMult;
+        double motionY = entityIn.world.rand.nextGaussian() * speedMult;
+        double motionZ = entityIn.world.rand.nextGaussian() * speedMult;
         GlowParticle particle = new GlowParticle(
                 entityIn.world,
                 entityIn.posX + entityIn.world.rand.nextFloat() * entityIn.getWidth()
@@ -92,6 +92,8 @@ public class ModParticles {
                 motionY,
                 motionZ,
                 160, color, 1F, 0.1F + entityIn.world.rand.nextFloat() / 40F, 0F, true, true, GlowParticle.EnumFadeMode.OUT);
+        if (mode != null)
+            particle.setMode(mode);
         spawnParticle(particle);
     }
 

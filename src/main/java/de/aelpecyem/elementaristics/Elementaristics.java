@@ -12,6 +12,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -128,6 +129,20 @@ public class Elementaristics {
                     }
                 }
             } catch (Exception ignored) {}
+        }
+
+        @SubscribeEvent
+        public static void registerEffects(RegistryEvent.Register<Effect> register) {
+            Elementaristics.LOGGER.info("Registering potion effects...");
+            try {
+                for (Field f : ModPotions.class.getFields()) {
+                    Object obj = f.get(null);
+                    if (obj instanceof Effect) {
+                        register.getRegistry().register((Effect) obj);
+                    }
+                }
+            } catch (Exception ignored) {
+            }
         }
     }
 }
