@@ -1,18 +1,19 @@
-package de.aelpecyem.elementaristics.common.block;
+package de.aelpecyem.elementaristics.common.block.base;
 
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 
-public class BlockSlabBase extends SlabBlock{
+public class SlabBaseBlock extends SlabBlock {
     protected String name;
     private final BlockState baseState;
 
-    public BlockSlabBase(String name, BlockState baseState, Properties properties) {
+    public SlabBaseBlock(String name, BlockState baseState, Properties properties) {
         super(properties);
         this.name = name;
         this.baseState = baseState;

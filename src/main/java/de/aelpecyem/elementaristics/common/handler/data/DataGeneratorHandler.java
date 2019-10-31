@@ -21,5 +21,6 @@ public class DataGeneratorHandler {
                 ModRecipes.initCraftingRecipes(consumer);
             }
         });
+        //todo, generate proper loot tables automatically
     }
 }
