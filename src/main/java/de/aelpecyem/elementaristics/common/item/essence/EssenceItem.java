@@ -1,7 +1,6 @@
 package de.aelpecyem.elementaristics.common.item.essence;
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.common.capability.ElementaristicsCapability;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
 import de.aelpecyem.elementaristics.reg.ModItems;
 import net.minecraft.client.util.ITooltipFlag;
@@ -13,6 +12,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
@@ -31,7 +32,7 @@ public class EssenceItem extends Item {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (getAspect(stack) != null)
-            tooltip.add(new TranslationTextComponent(getAspect(stack).getUnlocalizedName()));
+            tooltip.add(new TranslationTextComponent(getAspect(stack).getUnlocalizedName()).setStyle(new Style().setItalic(true).setColor(TextFormatting.DARK_GRAY)));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
@@ -61,9 +62,6 @@ public class EssenceItem extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        if (!worldIn.isRemote)
-            ElementaristicsCapability.Util.setMagan(worldIn.rand.nextInt(100), playerIn);
-        System.out.println("Client? " + worldIn.isRemote + " Magan: " + ElementaristicsCapability.Util.getMagan(playerIn));
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 

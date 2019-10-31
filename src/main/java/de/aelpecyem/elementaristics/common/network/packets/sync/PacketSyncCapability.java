@@ -26,8 +26,8 @@ public class PacketSyncCapability extends PacketBase<PacketSyncCapability> {
     @Override
     public Encoder<PacketSyncCapability> encoder() {
         return (pkt, buffer) -> {
-            buffer.writeInt(pkt.mode);
             PacketHandler.Util.writeNBTTag(buffer, pkt.data);
+            buffer.writeInt(pkt.mode);
         };
     }
 

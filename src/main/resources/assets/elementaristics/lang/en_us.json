@@ -9,6 +9,8 @@
   "aspect.fire": "Fire",
   "aspect.water": "Water",
   "aspect.aether": "Aether",
+  "aspect.flux": "Flux",
+  "aspect.light": "Light",
 
   "block.elementaristics.stone_enriched": "Enriched Stone",
   "block.elementaristics.stonebricks_enriched": "Enriched Stone Bricks",
