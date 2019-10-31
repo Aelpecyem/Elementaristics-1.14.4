@@ -1,14 +1,15 @@
 package de.aelpecyem.elementaristics.reg;
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.common.block.PurifierBlock;
 import de.aelpecyem.elementaristics.common.block.base.BaseBlock;
+import de.aelpecyem.elementaristics.common.block.base.HorizontalFacingBaseBlock;
 import de.aelpecyem.elementaristics.common.block.base.SlabBaseBlock;
 import de.aelpecyem.elementaristics.common.block.base.StairsBaseBlock;
 import de.aelpecyem.elementaristics.common.block.tile.PurifierTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
@@ -31,7 +32,7 @@ public class ModBlocks {
     public static StairsBaseBlock stonebricks_enriched_stairs = new StairsBaseBlock("stonebricks_enriched_stairs", stonebricks_enriched.getDefaultState(), Block.Properties.create(Material.ROCK, MaterialColor.BLACK).hardnessAndResistance(5).harvestLevel(1).harvestTool(ToolType.PICKAXE));
     public static StairsBaseBlock smooth_stone_enriched_stairs = new StairsBaseBlock("smooth_stone_enriched_stairs", smooth_stone_enriched.getDefaultState(), Block.Properties.create(Material.ROCK, MaterialColor.BLACK).hardnessAndResistance(5).harvestLevel(1).harvestTool(ToolType.PICKAXE));
 
-    public static PurifierBlock purifier = new PurifierBlock(); //The Purifier will be a glass construct, which will need fire to work... particles will look accordingly
+    public static HorizontalFacingBaseBlock purifier = new HorizontalFacingBaseBlock("purifier", Block.Properties.create(Material.ROCK, DyeColor.GRAY));//PurifierBlock(); //The Purifier will be a glass construct, which will need fire to work... particles will look accordingly
 
 
     //TileEntityTypes

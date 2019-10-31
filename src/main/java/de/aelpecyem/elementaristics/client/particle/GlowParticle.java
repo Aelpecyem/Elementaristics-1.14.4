@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 
 public class GlowParticle extends ModParticle { //todo work on all that stuff later, maybe optimize it by using actual RenderType code etc
@@ -86,6 +87,14 @@ public class GlowParticle extends ModParticle { //todo work on all that stuff la
             this.mode = mode;
             mode.setUp(this);
         }
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Random getRandom() {
+        return world.rand;
     }
 
     //todo create a method to move relative to current movement (multiply vectors???? no clue) probably test that then...

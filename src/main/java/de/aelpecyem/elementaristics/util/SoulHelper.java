@@ -17,7 +17,8 @@ public class SoulHelper {
     }
 
     public static Soul getRandomSoulWithChance(Random random) {
-        List<Soul> possibleSouls = new ArrayList<>(Soul.SOULS.values());
+        List<Soul> possibleSouls = new ArrayList<>();
+        possibleSouls.addAll(Soul.SOULS.values());
         Collections.shuffle(possibleSouls);
         for (Soul soul : possibleSouls) {
             if (soul.getChance() > random.nextFloat()) return soul;

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.client.particle.GlowParticle;
 import de.aelpecyem.elementaristics.client.particle.ModParticle;
-import de.aelpecyem.elementaristics.client.particle.mode.ParticleModes;
+import de.aelpecyem.elementaristics.client.particle.mode.ParticleMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
@@ -29,6 +29,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
@@ -62,15 +63,16 @@ public class ModParticles {
     public void spawnStandardParticle(World world, double x, double y, double z, int color) {
         GlowParticle particle = new GlowParticle(world, x, y, z, world.rand.nextGaussian() * 0.02D,
                 world.rand.nextGaussian() * 0.02D,
-                world.rand.nextGaussian() * 0.02D, 120, color, 1, 1, 0, false, true, GlowParticle.EnumFadeMode.OUT); // out
+                world.rand.nextGaussian() * 0.02D, 120, color, 0.9F, 0.8F, 0, false, true, GlowParticle.EnumFadeMode.OUT); // out
         spawnParticle(particle);
     }
 
-    public void spawnStandardParticle(World world, double x, double y, double z) {
-        GlowParticle particle = new GlowParticle(world, x, y, z, 0,
-                0.005,
-                0, 4000, 16711680, 1, 2, 0, false, true, GlowParticle.EnumFadeMode.NONE); //in out
-        particle.setMode(ParticleModes.RAINBOWS);
+    public void spawnStandardParticle(World world, double x, double y, double z, @Nullable ParticleMode mode) {
+        GlowParticle particle = new GlowParticle(world, x, y, z, world.rand.nextGaussian() * 0.02D,
+                world.rand.nextGaussian() * 0.02D,
+                world.rand.nextGaussian() * 0.02D, 300, 16711680, 0.9F, 0.8F, 0, false, true, GlowParticle.EnumFadeMode.IN_OUT); //in out
+        if (mode != null)
+            particle.setMode(mode);
         spawnParticle(particle);
     }
 

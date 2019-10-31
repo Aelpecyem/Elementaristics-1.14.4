@@ -2,6 +2,8 @@
   "itemGroup.elementaristics": "Elementaristics",
 
   "item.elementaristics.essence": "Essence",
+  "item.elementaristics.bundle_herbs": "Bundle of Herbs",
+
   "aspect.magan": "Magan",
   "aspect.mana": "Mana",
   "aspect.air": "Air",
@@ -11,7 +13,6 @@
   "aspect.aether": "Aether",
   "aspect.flux": "Flux",
   "aspect.light": "Light",
-
   "block.elementaristics.stone_enriched": "Enriched Stone",
   "block.elementaristics.stonebricks_enriched": "Enriched Stone Bricks",
   "block.elementaristics.smooth_stone_enriched": "Enriched Smooth Stone",

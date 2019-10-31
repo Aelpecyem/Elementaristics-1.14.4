@@ -65,10 +65,10 @@ public class Elementaristics {
 
     private void preInit(final FMLCommonSetupEvent event) {
         LOGGER.info("Starting pre-init...");
+        ModRegistries.init();
         CapabilityManager.INSTANCE.register(ElementaristicsCapability.class, new ElementaristicsCapability(), ElementaristicsCapability::new);
         PacketHandler.initPackets();
         ModRecipes.init();
-        ModRegistries.init();
     }
 
     private void postInit(final FMLLoadCompleteEvent event) {

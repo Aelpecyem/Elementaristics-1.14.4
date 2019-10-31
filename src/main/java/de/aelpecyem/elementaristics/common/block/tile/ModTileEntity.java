@@ -22,7 +22,7 @@ public abstract class ModTileEntity extends TileEntity {
 
     @Override
     public CompoundNBT getUpdateTag() {
-        return super.getUpdateTag();
+        return write(new CompoundNBT());
     }
 
     @Override
