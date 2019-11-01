@@ -6,6 +6,10 @@ import java.util.function.Consumer;
 
 public class ModRecipes {
     public static void init() {
+        initEssenceCrafting();
+    }
+
+    private static void initEssenceCrafting() {
 
     }
 
