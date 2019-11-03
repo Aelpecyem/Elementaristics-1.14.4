@@ -1,4 +1,4 @@
-package de.aelpecyem.elementaristics.common.handler.data;
+package de.aelpecyem.elementaristics.data;
 
 import de.aelpecyem.elementaristics.reg.ModRecipes;
 import net.minecraft.data.DataGenerator;
@@ -21,6 +21,7 @@ public class DataGeneratorHandler {
                 ModRecipes.initCraftingRecipes(consumer);
             }
         });
+        generator.addProvider(new ElemLootTableProvider(generator));
         //todo, generate proper loot tables automatically
     }
 }

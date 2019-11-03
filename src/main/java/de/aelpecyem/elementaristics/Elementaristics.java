@@ -57,22 +57,23 @@ public class Elementaristics {
     public Elementaristics() {
         Aspect.initAspects();
         //  ModBanners.init();
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::preInit);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::postInit);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::postSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void preInit(final FMLCommonSetupEvent event) {
+    private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("Starting pre-init...");
         ModRegistries.init();
         CapabilityManager.INSTANCE.register(ElementaristicsCapability.class, new ElementaristicsCapability(), ElementaristicsCapability::new);
         PacketHandler.initPackets();
         ModRecipes.init();
+        proxy.setup();
     }
 
-    private void postInit(final FMLLoadCompleteEvent event) {
+    private void postSetup(final FMLLoadCompleteEvent event) {
         LOGGER.info("Starting post-init...");
     }
 
@@ -108,15 +109,45 @@ public class Elementaristics {
                         register.getRegistry().register((Item) obj);
                     }
                 }
+
                 for (Field f : ModBlocks.class.getFields()) {
                     Object obj = f.get(null);
                     if (obj instanceof Block) {
                         register.getRegistry().register(new BlockItem((Block) obj, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(((Block) obj).getRegistryName()));
                     }
-                }
+                    //TOdo somehow get itemblocks registered again and register TEISRS :(
+                }/*
+                for (Field f : ModBlocks.class.getFields()) {
+                    Object obj = f.get(null);
+                    if (obj instanceof Block) {
+                        Elementaristics.LOGGER.info("Registering " + ((Block) obj).getRegistryName());
+                      //  if (obj instanceof ShrineBlock){
+                        //    register.getRegistry().register(new BlockItem((Block) obj, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(((Block) obj).getRegistryName()));
+                        //}else{
+                            register.getRegistry().register(new BlockItem((Block) obj, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(((Block) obj).getRegistryName()));
+                       // }
+                    }
+                }*/
             } catch (Exception ignored) {
+                ignored.printStackTrace(); //check
             }
         }
+
+     /*   @OnlyIn(Dist.DEDICATED_SERVER)
+        private static Void register(Block block, RegistryEvent.Register<Item> r) {
+            r.getRegistry().register(new BlockItem(block, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(block.getRegistryName()));
+            return null;
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        private static Void registerTEISR(Block block, RegistryEvent.Register<Item> r) {
+            if (block instanceof ShrineBlock){
+                r.getRegistry().register(new BlockItem(block, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(block.getRegistryName()));
+                // r.getRegistry().register(new BlockItem(block, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB).setTEISR(() -> () -> new ShrineRenderer.ForwardingTEISR())).setRegistryName(block.getRegistryName()));
+            }
+            return null;
+        }
+*/
 
         @SubscribeEvent
         public static void registerBlocks(RegistryEvent.Register<Block> register) {

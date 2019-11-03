@@ -1,5 +1,8 @@
 package de.aelpecyem.elementaristics.common.block.tile;
 
+import de.aelpecyem.elementaristics.common.item.crafting.AlchemicalMatterItem;
+import de.aelpecyem.elementaristics.common.misc.processing.AspectProcess;
+import de.aelpecyem.elementaristics.util.InventoryUtil;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -23,7 +26,13 @@ public abstract class AlchemyProcessingTileEntity extends ModTileEntity implemen
     protected LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createHandler);
 
     protected IItemHandler createHandler() {
-        return new ItemStackHandler(1);
+        return new ItemStackHandler(2) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                sync();
+                super.onContentsChanged(slot);
+            }
+        };
     }
 
 
@@ -44,8 +53,10 @@ public abstract class AlchemyProcessingTileEntity extends ModTileEntity implemen
     @Override
     public void tick() {
         if (isWorking()) {
+            sync();
             increaseTicks();
             if (isFinished()) {
+                doAlchemy();
                 finish();
             }
         } else {
@@ -53,19 +64,32 @@ public abstract class AlchemyProcessingTileEntity extends ModTileEntity implemen
         }
     }
 
+    public void doAlchemy() {
+        if (InventoryUtil.check(getInventory(), stack -> stack.getItem() instanceof AlchemicalMatterItem)) {
+            AlchemicalMatterItem.addSuccessfulProcess(getInventory().getStackInSlot(InventoryUtil.slotForCheck(getInventory(), stack -> stack.getItem() instanceof AlchemicalMatterItem)), addProcessPart());
+        }
+    }
+
+    public abstract AspectProcess addProcessPart();
+
     /**
      * Use this method to calculate if the apparatus in question should increase its working progress
      *
      * @return whether the apparatus should continue work
      */
-    public abstract boolean isWorking();
+    public boolean isWorking() {
+        return InventoryUtil.check(getInventory(), stack -> stack.getItem() instanceof AlchemicalMatterItem) && InventoryUtil.check(getInventory(), stack -> stack.isEmpty());
+    }
 
     public void increaseTicks() {
         ticks++;
     }
 
     public void resetProgress() {
-        ticks = 0;
+        if (ticks > 0) {
+            ticks = 0;
+            sync();
+        }
     }
 
     public abstract boolean isFinished();

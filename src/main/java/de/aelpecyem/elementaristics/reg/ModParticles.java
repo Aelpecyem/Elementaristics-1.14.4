@@ -8,7 +8,6 @@ import de.aelpecyem.elementaristics.client.particle.mode.ParticleMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -26,7 +25,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
-import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
@@ -43,15 +41,14 @@ public class ModParticles {
 
     @OnlyIn(Dist.CLIENT)
     public void init(){
-        Elementaristics.LOGGER.log(Level.INFO, "Registering particle factories...");
-
-        ParticleManager particles = Minecraft.getInstance().particles;
+        //Elementaristics.LOGGER.log(Level.INFO, "Registering particle factories...")
+        // ParticleManager particles = Minecraft.getInstance().particles;
         //particles.registerFactory(GLOW, (ParticleManager.IParticleMetaFactory) BubbleParticle.Factory::new); //todo fix the particle factory
     }
 
     @SubscribeEvent
     public static void registerParticles(RegistryEvent.Register<ParticleType<?>> register) {
-        Elementaristics.LOGGER.log(Level.INFO, "Registering particles...");
+        //Elementaristics.LOGGER.log(Level.INFO, "Registering particles...");
         //register.getRegistry().register(GLOW);
     }
 
@@ -101,7 +98,7 @@ public class ModParticles {
         double motionX = world.rand.nextGaussian() * 0.001D;
         double motionY = world.rand.nextGaussian() * 0.001D;
         double motionZ = world.rand.nextGaussian() * 0.001D;
-        GlowParticle particle = new GlowParticle(world, pos.getX() + world.rand.nextFloat(), pos.getY() + world.rand.nextFloat(), pos.getZ() + world.rand.nextFloat(), motionX, motionY, motionZ, 160, color, 1F, 0.1F, 0, false, true, GlowParticle.EnumFadeMode.IN_OUT);
+        GlowParticle particle = new GlowParticle(world, pos.getX() + world.rand.nextFloat(), pos.getY() + world.rand.nextFloat(), pos.getZ() + world.rand.nextFloat(), motionX, motionY, motionZ, 120, color, 0.9F, 0.1F, 0, false, false, GlowParticle.EnumFadeMode.IN_OUT);
         spawnParticle(particle);
     }
 

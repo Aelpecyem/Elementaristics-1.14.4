@@ -10,7 +10,14 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerChunkProvider;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -49,6 +56,24 @@ public class PacketHandler {
 
     //methods taken from https://github.com/HellFirePvP/AstralSorcery/blob/1.14.3-indev/src/main/java/hellfirepvp/astralsorcery/common/util/data/ByteBufUtils.java
     public static class Util {
+        public static void updateTE(TileEntity tile) {
+            SUpdateTileEntityPacket packet = tile.getUpdatePacket();
+            BlockPos pos = tile.getPos();
+
+            if (packet != null && tile.getWorld() instanceof ServerWorld) {
+                ((ServerChunkProvider) tile.getWorld().getChunkProvider()).chunkManager
+                        .getTrackingPlayers(new ChunkPos(pos), false)
+                        .filter(p -> p.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) < 64 * 64)
+                        .forEach(e -> e.connection.sendPacket(packet));
+            }
+        }
+
+        public static void updateTE(World world, BlockPos pos) {
+            TileEntity tile = world.getTileEntity(pos);
+            if (tile != null)
+                updateTE(tile);
+        }
+
         public static void sendToPlayer(PlayerEntity player, PacketBase packet) {
             if (player instanceof ServerPlayerEntity) {
                 HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), packet);

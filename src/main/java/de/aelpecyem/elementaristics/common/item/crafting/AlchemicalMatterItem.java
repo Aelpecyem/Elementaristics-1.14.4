@@ -1,32 +1,29 @@
 package de.aelpecyem.elementaristics.common.item.crafting;
 
-import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.common.item.BaseItem;
 import de.aelpecyem.elementaristics.common.misc.processing.AspectProcess;
-import de.aelpecyem.elementaristics.common.misc.processing.AspectProcessPart;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AlchemicalMatterItem extends Item {
+public class AlchemicalMatterItem extends BaseItem {
     public static final String PROCESS_TAG = "process";
     public static final String PROCESS_STAGE_TAG = "process_stage";
 
     public AlchemicalMatterItem() {
-        super(new Properties().maxStackSize(64));
-        setRegistryName(new ResourceLocation(Elementaristics.MODID, "alchemical_matter"));
+        super("alchemical_matter");
     }
 
 
@@ -34,7 +31,7 @@ public class AlchemicalMatterItem extends Item {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (stack.hasTag()) {
-            //display the steps here
+            tooltip.add(stack.getTag().toFormattedComponent("", 4));
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
@@ -46,27 +43,40 @@ public class AlchemicalMatterItem extends Item {
         }
         if (!stack.hasTag()) {
             stack.setTag(new CompoundNBT());
-            stack.getTag().putString(PROCESS_TAG, "");
+            stack.getTag().put(PROCESS_TAG, new CompoundNBT());
             stack.getTag().putInt(PROCESS_STAGE_TAG, 0);
         }
         return false;
     }
+    //have them in nbt
 
-    public static ItemStack addSuccessfulProcess(ItemStack stack, AspectProcessPart part) {
+    public static ItemStack addSuccessfulProcess(ItemStack stack, AspectProcess part) {
+        CompoundNBT processTag = getProcessTag(stack);
+        processTag.put("process" + getProcessStage(stack), part.write(new CompoundNBT()));
         setProcessStage(stack, getProcessStage(stack) + 1);
-        String oldProcess = getProcessString(stack);
-        String newProcess = oldProcess + part.serialize();
-        setProcessString(stack, newProcess);
+        setProcessTag(stack, processTag);
         return stack;
     }
 
-    public static String getProcessString(ItemStack stack) {
+    public static CompoundNBT getProcessTag(ItemStack stack) {
         setUp(stack);
-        return stack.getTag().getString(PROCESS_TAG);
+        return stack.getTag().getCompound(PROCESS_TAG);
     }
 
-    public static List<AspectProcessPart> getProcessesDone(ItemStack stack) {
-        return AspectProcess.Util.getCompletedProcessesFor(stack);
+    public static ItemStack setProcessTag(ItemStack stack, CompoundNBT nbt) {
+        setUp(stack);
+        stack.getTag().put(PROCESS_TAG, nbt);
+        return stack;
+    }
+
+    public static List<AspectProcess> getProcessesDone(ItemStack stack) {
+        List<AspectProcess> processes = new ArrayList<>();
+        int count = getProcessStage(stack);
+        CompoundNBT from = getProcessTag(stack);
+        for (int i = 0; i < count; i++) {
+            processes.add(AspectProcess.read(from.getCompound("process" + i)));
+        }
+        return processes;
     }
 
     public static int getProcessStage(ItemStack stack) {

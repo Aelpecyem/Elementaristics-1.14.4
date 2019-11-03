@@ -1,5 +1,6 @@
 package de.aelpecyem.elementaristics.common.block.tile;
 
+import de.aelpecyem.elementaristics.common.network.PacketHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -31,4 +32,10 @@ public abstract class ModTileEntity extends TileEntity {
         BlockState state = this.world.getBlockState(this.pos);
         this.world.notifyBlockUpdate(this.pos, state, state, 3);
     }
+
+    public void sync() {
+        markDirty();
+        PacketHandler.Util.updateTE(this);
+    }
+
 }
