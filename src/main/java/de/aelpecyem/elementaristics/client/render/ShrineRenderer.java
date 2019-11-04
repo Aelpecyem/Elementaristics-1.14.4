@@ -17,7 +17,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 
 public class ShrineRenderer extends TileEntityRenderer<ShrineTileEntity> {
-    private static Deity deity = ModRegistries.WITCH;
+    private static Deity deity = ModRegistries.MOON;
 
     @Override
     public void render(ShrineTileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {

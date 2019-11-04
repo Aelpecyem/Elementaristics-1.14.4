@@ -51,7 +51,7 @@ public class ModBlocks {
     @ObjectHolder(Elementaristics.MODID + ":shrine_dragon_aether")
     public static ShrineBlock shrine_dragon_aether = new ShrineBlock("shrine_dragon_aether", ModRegistries.DRAGON_AETHER);
     @ObjectHolder(Elementaristics.MODID + ":shrine_dragon_fire")
-    public static ShrineBlock dragon_fire = new ShrineBlock("shrine_dragon_fire", ModRegistries.DRAGON_FIRE);
+    public static ShrineBlock shrine_dragon_fire = new ShrineBlock("shrine_dragon_fire", ModRegistries.DRAGON_FIRE);
     @ObjectHolder(Elementaristics.MODID + ":shrine_dragon_earth")
     public static ShrineBlock shrine_dragon_earth = new ShrineBlock("shrine_dragon_earth", ModRegistries.DRAGON_EARTH);
     @ObjectHolder(Elementaristics.MODID + ":shrine_dragon_water")
@@ -64,6 +64,8 @@ public class ModBlocks {
     public static ShrineBlock shrine_goat = new ShrineBlock("shrine_goat", ModRegistries.GOAT);
     @ObjectHolder(Elementaristics.MODID + ":shrine_moth")
     public static ShrineBlock shrine_moth = new ShrineBlock("shrine_moth", ModRegistries.MOTH);
+    @ObjectHolder(Elementaristics.MODID + ":shrine_moon")
+    public static ShrineBlock shrine_moon = new ShrineBlock("shrine_moon", ModRegistries.MOON);
     @ObjectHolder(Elementaristics.MODID + ":shrine_witch")
     public static ShrineBlock shrine_witch = new ShrineBlock("shrine_witch", ModRegistries.WITCH);
 

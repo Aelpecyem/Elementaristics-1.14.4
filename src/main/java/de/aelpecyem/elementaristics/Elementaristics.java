@@ -1,5 +1,7 @@
 package de.aelpecyem.elementaristics;
 
+import de.aelpecyem.elementaristics.client.render.ShrineRenderer;
+import de.aelpecyem.elementaristics.common.block.pantheon.ShrineBlock;
 import de.aelpecyem.elementaristics.common.capability.ElementaristicsCapability;
 import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
@@ -14,6 +16,8 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
@@ -48,9 +52,6 @@ public class Elementaristics {
                 items.add(EssenceItem.withAspect(aspect));
 
             super.fill(items);
-
-            //for (final BannerPattern banner : ModBanners.getModdedPatterns())
-            //    items.add(ModBanners.createBanner(Items.WHITE_BANNER, banner));
         }
     };
 
@@ -113,41 +114,35 @@ public class Elementaristics {
                 for (Field f : ModBlocks.class.getFields()) {
                     Object obj = f.get(null);
                     if (obj instanceof Block) {
-                        register.getRegistry().register(new BlockItem((Block) obj, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(((Block) obj).getRegistryName()));
-                    }
-                    //TOdo somehow get itemblocks registered again and register TEISRS :(
-                }/*
-                for (Field f : ModBlocks.class.getFields()) {
-                    Object obj = f.get(null);
-                    if (obj instanceof Block) {
-                        Elementaristics.LOGGER.info("Registering " + ((Block) obj).getRegistryName());
-                      //  if (obj instanceof ShrineBlock){
-                        //    register.getRegistry().register(new BlockItem((Block) obj, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(((Block) obj).getRegistryName()));
-                        //}else{
+                        if (obj instanceof ShrineBlock) {
+                            DistExecutor.runForDist(() -> () -> registerTEISR((Block) obj, register), () -> () -> register((Block) obj, register));
+                        } else {
                             register.getRegistry().register(new BlockItem((Block) obj, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(((Block) obj).getRegistryName()));
-                       // }
+                        }
                     }
-                }*/
+                }
+
             } catch (Exception ignored) {
                 ignored.printStackTrace(); //check
             }
         }
 
-     /*   @OnlyIn(Dist.DEDICATED_SERVER)
+        @OnlyIn(Dist.DEDICATED_SERVER)
         private static Void register(Block block, RegistryEvent.Register<Item> r) {
-            r.getRegistry().register(new BlockItem(block, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(block.getRegistryName()));
+            if (block instanceof ShrineBlock) {
+                r.getRegistry().register(new BlockItem(block, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(block.getRegistryName()));
+            }
             return null;
         }
 
         @OnlyIn(Dist.CLIENT)
         private static Void registerTEISR(Block block, RegistryEvent.Register<Item> r) {
-            if (block instanceof ShrineBlock){
-                r.getRegistry().register(new BlockItem(block, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB)).setRegistryName(block.getRegistryName()));
-                // r.getRegistry().register(new BlockItem(block, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB).setTEISR(() -> () -> new ShrineRenderer.ForwardingTEISR())).setRegistryName(block.getRegistryName()));
+            if (block instanceof ShrineBlock) {
+                r.getRegistry().register(new BlockItem(block, new Item.Properties().group(Elementaristics.ELEMENTARISTICS_TAB).setTEISR(() -> () -> new ShrineRenderer.ForwardingTEISR())).setRegistryName(block.getRegistryName()));
             }
             return null;
         }
-*/
+
 
         @SubscribeEvent
         public static void registerBlocks(RegistryEvent.Register<Block> register) {

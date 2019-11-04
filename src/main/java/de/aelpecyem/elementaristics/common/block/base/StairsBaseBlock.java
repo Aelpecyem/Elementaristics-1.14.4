@@ -2,7 +2,6 @@ package de.aelpecyem.elementaristics.common.block.base;
 
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.data.ElemLootTableProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +18,6 @@ public class StairsBaseBlock extends StairsBlock {
         this.name = name;
         this.baseState = baseState;
         setRegistryName(new ResourceLocation(Elementaristics.MODID, name));
-        ElemLootTableProvider.LOOT_TABLES.put(getRegistryName(), ElemLootTableProvider.genRegular(this));
     }
 
     @Nullable

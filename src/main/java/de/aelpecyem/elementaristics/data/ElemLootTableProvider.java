@@ -2,6 +2,8 @@ package de.aelpecyem.elementaristics.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.common.block.base.SlabBaseBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.data.DataGenerator;
@@ -14,6 +16,7 @@ import net.minecraft.world.storage.loot.conditions.BlockStateProperty;
 import net.minecraft.world.storage.loot.conditions.SurvivesExplosion;
 import net.minecraft.world.storage.loot.functions.ExplosionDecay;
 import net.minecraft.world.storage.loot.functions.SetCount;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -22,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ElemLootTableProvider implements IDataProvider {
-    public static final Map<ResourceLocation, LootTable.Builder> LOOT_TABLES = new HashMap<>();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final DataGenerator generator;
 
@@ -33,6 +35,15 @@ public class ElemLootTableProvider implements IDataProvider {
     @Override
     public void act(DirectoryCache cache) throws IOException {
         Map<ResourceLocation, LootTable.Builder> tables = new HashMap<>();
+        for (Block b : ForgeRegistries.BLOCKS) {
+            if (!Elementaristics.MODID.equals(b.getRegistryName().getNamespace()))
+                continue;
+            if (b instanceof SlabBaseBlock) {
+                tables.put(b.getRegistryName(), genSlab(b));
+            } else {
+                tables.put(b.getRegistryName(), genRegular(b));
+            }
+        }
         for (Map.Entry<ResourceLocation, LootTable.Builder> e : tables.entrySet()) {
             Path path = getPath(generator.getOutputFolder(), e.getKey());
             IDataProvider.save(GSON, cache, LootTableManager.toJson(e.getValue().setParameterSet(LootParameterSets.BLOCK).build()), path);

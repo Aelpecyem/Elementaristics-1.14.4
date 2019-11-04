@@ -1,9 +1,9 @@
 package de.aelpecyem.elementaristics.common.block.pantheon;
 
-import de.aelpecyem.elementaristics.common.block.IHasTEISR;
 import de.aelpecyem.elementaristics.common.block.base.TileEntityFacingBaseBlock;
 import de.aelpecyem.elementaristics.common.block.tile.ShrineTileEntity;
 import de.aelpecyem.elementaristics.common.misc.pantheon.Deity;
+import de.aelpecyem.elementaristics.reg.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -29,14 +29,14 @@ import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 
-public class ShrineBlock extends TileEntityFacingBaseBlock implements IWaterLoggable, IHasTEISR {
+public class ShrineBlock extends TileEntityFacingBaseBlock implements IWaterLoggable {
     public Deity deityBound;
 
     public ShrineBlock(String name, Deity deityBound) {
         super(name, Block.Properties.create(Material.ROCK, MaterialColor.BLACK).hardnessAndResistance(5).harvestLevel(1).harvestTool(ToolType.PICKAXE).lightValue(5));
         this.deityBound = deityBound;
         this.setDefaultState(this.getDefaultState().with(BlockStateProperties.WATERLOGGED, false));
-        //ModBlocks.SHRINES.add(this);
+        ModBlocks.SHRINES.add(this);
     }
 
     public void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
