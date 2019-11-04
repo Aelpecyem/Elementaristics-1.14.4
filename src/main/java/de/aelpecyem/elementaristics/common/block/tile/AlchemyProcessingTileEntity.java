@@ -1,8 +1,11 @@
 package de.aelpecyem.elementaristics.common.block.tile;
 
 import de.aelpecyem.elementaristics.common.item.crafting.AlchemicalMatterItem;
+import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
 import de.aelpecyem.elementaristics.common.misc.processing.AspectProcess;
+import de.aelpecyem.elementaristics.reg.ModItems;
 import de.aelpecyem.elementaristics.util.InventoryUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -31,6 +34,16 @@ public abstract class AlchemyProcessingTileEntity extends ModTileEntity implemen
             protected void onContentsChanged(int slot) {
                 sync();
                 super.onContentsChanged(slot);
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                return slot == 1 || (stack.getItem() instanceof AlchemicalMatterItem || stack.getItem() instanceof EssenceItem);
             }
         };
     }
@@ -65,20 +78,33 @@ public abstract class AlchemyProcessingTileEntity extends ModTileEntity implemen
     }
 
     public void doAlchemy() {
-        if (InventoryUtil.check(getInventory(), stack -> stack.getItem() instanceof AlchemicalMatterItem)) {
-            AlchemicalMatterItem.addSuccessfulProcess(getInventory().getStackInSlot(InventoryUtil.slotForCheck(getInventory(), stack -> stack.getItem() instanceof AlchemicalMatterItem)), addProcessPart());
+        int prevColor = -1;
+        if (InventoryUtil.check(getInventory(), slot -> getInventory().getStackInSlot(slot).getItem() instanceof EssenceItem)) {
+            int slot = InventoryUtil.slotForCheck(getInventory(), s -> getInventory().getStackInSlot(s).getItem() instanceof EssenceItem);
+            prevColor = EssenceItem.getAspect(getInventory().getStackInSlot(slot)).getColor();
+            int count = getInventory().extractItem(slot, getInventory().getSlotLimit(slot), false).getCount();
+            getInventory().insertItem(slot, new ItemStack(ModItems.alchemical_matter, count), false);
+        }
+        if (InventoryUtil.check(getInventory(), slot -> getInventory().getStackInSlot(slot).getItem() instanceof AlchemicalMatterItem)) {
+            ItemStack stack = getInventory().getStackInSlot(InventoryUtil.slotForCheck(getInventory(), slot -> getInventory().getStackInSlot(slot).getItem() instanceof AlchemicalMatterItem));
+            if (prevColor == -1) {
+                prevColor = AlchemicalMatterItem.getColor(stack);
+            }
+            AlchemicalMatterItem.setColor(stack, getTargetColor(prevColor));
+            AlchemicalMatterItem.addSuccessfulProcess(stack, addProcessPart());
         }
     }
 
     public abstract AspectProcess addProcessPart();
 
+    public abstract int getTargetColor(int previousColor);
     /**
      * Use this method to calculate if the apparatus in question should increase its working progress
      *
      * @return whether the apparatus should continue work
      */
     public boolean isWorking() {
-        return InventoryUtil.check(getInventory(), stack -> stack.getItem() instanceof AlchemicalMatterItem) && InventoryUtil.check(getInventory(), stack -> stack.isEmpty());
+        return (InventoryUtil.check(getInventory(), slot -> getInventory().getStackInSlot(slot).getItem() instanceof AlchemicalMatterItem) || InventoryUtil.check(getInventory(), slot -> getInventory().getStackInSlot(slot).getItem() instanceof EssenceItem)) && InventoryUtil.check(getInventory(), slot -> getInventory().getStackInSlot(slot).isEmpty());
     }
 
     public void increaseTicks() {

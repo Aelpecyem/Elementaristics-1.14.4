@@ -21,6 +21,7 @@ import java.util.List;
 public class AlchemicalMatterItem extends BaseItem {
     public static final String PROCESS_TAG = "process";
     public static final String PROCESS_STAGE_TAG = "process_stage";
+    public static final String COLOR_TAG = "color";
 
     public AlchemicalMatterItem() {
         super("alchemical_matter");
@@ -31,20 +32,20 @@ public class AlchemicalMatterItem extends BaseItem {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (stack.hasTag()) {
-            tooltip.add(stack.getTag().toFormattedComponent("", 4));
+            tooltip.add(stack.getTag().toFormattedComponent(" ", 2));
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
-
     public static boolean setUp(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains(PROCESS_TAG) && stack.getTag().contains(PROCESS_STAGE_TAG)) {
+        if (stack.hasTag() && stack.getTag().contains(PROCESS_TAG) && stack.getTag().contains(PROCESS_STAGE_TAG) && stack.getTag().contains(COLOR_TAG)) {
             return true;
         }
         if (!stack.hasTag()) {
             stack.setTag(new CompoundNBT());
             stack.getTag().put(PROCESS_TAG, new CompoundNBT());
             stack.getTag().putInt(PROCESS_STAGE_TAG, 0);
+            stack.getTag().putInt(COLOR_TAG, 16777215);
         }
         return false;
     }
@@ -62,6 +63,7 @@ public class AlchemicalMatterItem extends BaseItem {
         setUp(stack);
         return stack.getTag().getCompound(PROCESS_TAG);
     }
+
 
     public static ItemStack setProcessTag(ItemStack stack, CompoundNBT nbt) {
         setUp(stack);
@@ -85,11 +87,22 @@ public class AlchemicalMatterItem extends BaseItem {
     }
 
     public static void setProcessStage(ItemStack stack, int stage) {
+        setUp(stack);
         stack.getTag().putInt(PROCESS_STAGE_TAG, stage);
     }
 
     public static void setProcessString(ItemStack stack, String newProcess) {
         stack.getTag().putString(PROCESS_TAG, newProcess);
+    }
+
+    public static int getColor(ItemStack stack) {
+        setUp(stack);
+        return stack.getTag().getInt(COLOR_TAG);
+    }
+
+    public static void setColor(ItemStack stack, int color) {
+        setUp(stack);
+        stack.getTag().putInt(COLOR_TAG, Math.abs(color));
     }
 
     @Override

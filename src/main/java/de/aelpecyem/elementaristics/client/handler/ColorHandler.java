@@ -1,6 +1,7 @@
 package de.aelpecyem.elementaristics.client.handler;
 
 import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.common.item.crafting.AlchemicalMatterItem;
 import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
 import de.aelpecyem.elementaristics.reg.ModItems;
 import net.minecraft.client.Minecraft;
@@ -19,7 +20,10 @@ public class ColorHandler{
         event.getItemColors().register((stack, tint) -> {
             if (stack.getItem() instanceof EssenceItem)
                 return EssenceItem.getAspect(stack) != null ? EssenceItem.getAspect(stack).getColor() : Minecraft.getInstance().world.rand.nextInt(16777215);
+            if (stack.getItem() instanceof AlchemicalMatterItem) {
+                return tint == 0 ? AlchemicalMatterItem.getColor(stack) : 16777215;
+            }
             return 16777215;
-        }, ModItems.essence);
+        }, ModItems.essence, ModItems.alchemical_matter);
     }
 }
