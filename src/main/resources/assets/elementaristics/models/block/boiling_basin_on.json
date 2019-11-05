@@ -1,0 +1,6 @@
+{
+  "parent": "elementaristics:block/boiling_basin",
+  "textures": {
+    "all": "elementaristics:block/boiling_basin_on"
+  }
+}

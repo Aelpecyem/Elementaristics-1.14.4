@@ -1,12 +1,12 @@
 package de.aelpecyem.elementaristics.reg;
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.common.block.alchemy.PurifierBlock;
+import de.aelpecyem.elementaristics.common.block.alchemy.BoilingBasinBlock;
 import de.aelpecyem.elementaristics.common.block.base.BaseBlock;
 import de.aelpecyem.elementaristics.common.block.base.SlabBaseBlock;
 import de.aelpecyem.elementaristics.common.block.base.StairsBaseBlock;
 import de.aelpecyem.elementaristics.common.block.pantheon.ShrineBlock;
-import de.aelpecyem.elementaristics.common.block.tile.PurifierTileEntity;
+import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
 import de.aelpecyem.elementaristics.common.block.tile.ShrineTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -46,8 +46,8 @@ public class ModBlocks {
     public static StairsBaseBlock smooth_stone_enriched_stairs = new StairsBaseBlock("smooth_stone_enriched_stairs", smooth_stone_enriched.getDefaultState(), Block.Properties.create(Material.ROCK, MaterialColor.BLACK).hardnessAndResistance(5).harvestLevel(1).harvestTool(ToolType.PICKAXE));
 
 
-    @ObjectHolder(Elementaristics.MODID + ":purifier")
-    public static PurifierBlock purifier = new PurifierBlock();//PurifierBlock(); //The Purifier will be a glass construct, which will need fire to work... particles will look accordingly
+    @ObjectHolder(Elementaristics.MODID + ":boiling_basin")
+    public static BoilingBasinBlock boiling_basin = new BoilingBasinBlock();//PurifierBlock(); //The Purifier will be a glass construct, which will need fire to work... particles will look accordingly
 
     @ObjectHolder(Elementaristics.MODID + ":shrine_dragon_aether")
     public static ShrineBlock shrine_dragon_aether = new ShrineBlock("shrine_dragon_aether", ModRegistries.DRAGON_AETHER);
@@ -72,8 +72,8 @@ public class ModBlocks {
 
 
     //TileEntityTypes
-    @ObjectHolder(Elementaristics.MODID + ":purifier")
-    public static TileEntityType<PurifierTileEntity> PURIFIER = (TileEntityType<PurifierTileEntity>) TileEntityType.Builder.create(PurifierTileEntity::new, ModBlocks.purifier).build(null).setRegistryName("purifier");
+    @ObjectHolder(Elementaristics.MODID + ":boiling_basin")
+    public static TileEntityType<BoilingBasingTileEntity> PURIFIER = (TileEntityType<BoilingBasingTileEntity>) TileEntityType.Builder.create(BoilingBasingTileEntity::new, ModBlocks.boiling_basin).build(null).setRegistryName("boiling_basin");
     @ObjectHolder(Elementaristics.MODID + ":shrine")
     public static TileEntityType<ShrineTileEntity> SHRINE = (TileEntityType<ShrineTileEntity>) TileEntityType.Builder.create(ShrineTileEntity::new, SHRINES.toArray(new ShrineBlock[SHRINES.size()])).build(null).setRegistryName("shrine");
 

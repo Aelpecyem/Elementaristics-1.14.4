@@ -5,7 +5,9 @@ import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.client.handler.HUDHandler;
 import de.aelpecyem.elementaristics.client.model.ModelBase;
 import de.aelpecyem.elementaristics.client.model.shrines.*;
+import de.aelpecyem.elementaristics.client.render.BoilingBasinRenderer;
 import de.aelpecyem.elementaristics.client.render.ShrineRenderer;
+import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
 import de.aelpecyem.elementaristics.common.block.tile.ShrineTileEntity;
 import de.aelpecyem.elementaristics.common.misc.pantheon.Deity;
 import de.aelpecyem.elementaristics.reg.ModRegistries;
@@ -19,8 +21,12 @@ public class ClientProxy extends CommonProxy {
     public static final Map<Deity, ModelBase> DEITY_MODEL_MAP = new HashMap<>();
     public static final Map<Deity, ResourceLocation> DEITY_TEXTURE_MAP = new HashMap<>();
 
+
+    public static final ResourceLocation THICC_WATER = new ResourceLocation(Elementaristics.MODID, "textures/block/thick_water.png");
+
     @Override
     public void setup() {
+        ClientRegistry.bindTileEntitySpecialRenderer(BoilingBasingTileEntity.class, new BoilingBasinRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(ShrineTileEntity.class, new ShrineRenderer());
         registerDeityModel(ModRegistries.DRAGON_AETHER, new ModelDragonAether());
         registerDeityModel(ModRegistries.DRAGON_FIRE, new ModelDragonFire());

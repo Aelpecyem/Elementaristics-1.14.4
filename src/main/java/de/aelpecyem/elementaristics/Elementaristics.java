@@ -18,6 +18,7 @@ import net.minecraft.potion.Effect;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
@@ -169,6 +170,11 @@ public class Elementaristics {
                 }
             } catch (Exception ignored) {
             }
+        }
+
+        @SubscribeEvent
+        public static void registerSpecialTextures(TextureStitchEvent.Pre event) {
+            event.addSprite(ClientProxy.THICC_WATER);
         }
     }
 }

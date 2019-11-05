@@ -22,4 +22,8 @@ public class ColorUtil {
 
         return new Color((int) r, (int) g, (int) b, (int) a);
     }
+
+    public static int toDecimal(Color color) {
+        return (color.getRed() << 16) + (color.getGreen() << 8) + (color.getBlue());
+    }
 }

@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -38,16 +39,20 @@ public abstract class AlchemyProcessingTileEntity extends ModTileEntity implemen
 
             @Override
             public int getSlotLimit(int slot) {
-                return 1;
+                return slot == 0 ? 3 : 1;
             }
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return slot == 1 || (stack.getItem() instanceof AlchemicalMatterItem || stack.getItem() instanceof EssenceItem);
+                return slot == 1 || (getStackInSlot(1).isEmpty() && (stack.getItem() instanceof AlchemicalMatterItem || stack.getItem() instanceof EssenceItem));
             }
         };
     }
 
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(3);
+    }
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
@@ -98,6 +103,15 @@ public abstract class AlchemyProcessingTileEntity extends ModTileEntity implemen
     public abstract AspectProcess addProcessPart();
 
     public abstract int getTargetColor(int previousColor);
+
+    public int getOriginalColor() {
+        int slot = InventoryUtil.slotForCheck(getInventory(), s -> getInventory().getStackInSlot(s).getItem() instanceof AlchemicalMatterItem || getInventory().getStackInSlot(s).getItem() instanceof EssenceItem);
+        if (slot > -1) {
+            ItemStack stack = getInventory().getStackInSlot(slot);
+            return stack.getItem() instanceof AlchemicalMatterItem ? AlchemicalMatterItem.getColor(stack) : EssenceItem.getAspect(stack).getColor();
+        }
+        return 24319;
+    }
     /**
      * Use this method to calculate if the apparatus in question should increase its working progress
      *

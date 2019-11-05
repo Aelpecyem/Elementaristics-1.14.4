@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "elementaristics:purifier"
+          "name": "elementaristics:boiling_basin"
         }
       ],
       "conditions": [

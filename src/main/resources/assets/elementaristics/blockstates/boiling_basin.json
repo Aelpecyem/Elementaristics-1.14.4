@@ -1,0 +1,46 @@
+{
+  "variants": {
+    "facing=east,lit=false": {
+      "model": "elementaristics:block/boiling_basin",
+      "y": 270
+    },
+    "facing=west,lit=false": {
+      "model": "elementaristics:block/boiling_basin",
+      "y": 90
+    },
+    "facing=south,lit=false": {
+      "model": "elementaristics:block/boiling_basin",
+      "y": 180
+    },
+    "facing=north,lit=false": {
+      "model": "elementaristics:block/boiling_basin"
+    },
+    "facing=east,lit=true": {
+      "model": "elementaristics:block/boiling_basin",
+      "y": 270,
+      "textures": {
+        "all": "elementaristics:block/boiling_basin_on"
+      }
+    },
+    "facing=west,lit=true": {
+      "model": "elementaristics:block/boiling_basin",
+      "y": 90,
+      "textures": {
+        "all": "elementaristics:block/boiling_basin_on"
+      }
+    },
+    "facing=south,lit=true": {
+      "model": "elementaristics:block/boiling_basin",
+      "y": 180,
+      "textures": {
+        "all": "elementaristics:block/boiling_basin_on"
+      }
+    },
+    "facing=north,lit=true": {
+      "model": "elementaristics:block/boiling_basin",
+      "textures": {
+        "all": "elementaristics:block/boiling_basin_on"
+      }
+    }
+  }
+}
