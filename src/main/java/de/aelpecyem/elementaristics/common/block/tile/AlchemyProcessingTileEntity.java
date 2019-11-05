@@ -44,7 +44,7 @@ public abstract class AlchemyProcessingTileEntity extends ModTileEntity implemen
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return slot == 1 || (getStackInSlot(1).isEmpty() && (stack.getItem() instanceof AlchemicalMatterItem || stack.getItem() instanceof EssenceItem));
+                return (getStackInSlot(1).isEmpty() && (stack.getItem() instanceof AlchemicalMatterItem || stack.getItem() instanceof EssenceItem));
             }
         };
     }

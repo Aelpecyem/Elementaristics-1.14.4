@@ -41,7 +41,7 @@ public class BoilingBasingTileEntity extends AlchemyProcessingTileEntity {
 
     @Override
     public boolean isWorking() {
-        return isLit() && isValidItem(getInventory().getStackInSlot(0)) && getInventory().getStackInSlot(0).getCount() >= 3 && getInventory().getStackInSlot(1).isEmpty(); //or if it is a boiling_basin recipe, but that will come later
+        return isLit() && isValidItem(getInventory().getStackInSlot(0)) && getInventory().getStackInSlot(0).getCount() >= 3; //or if it is a boiling_basin recipe, but that will come later
     }
 
     public boolean isLit() {
@@ -49,13 +49,15 @@ public class BoilingBasingTileEntity extends AlchemyProcessingTileEntity {
     }
     @Override
     public void finish() {
-        getInventory().insertItem(1, getInventory().extractItem(0, 3, false), false);
+        ItemStack result = getInventory().extractItem(0, 3, false);
+        result.setCount(1);
+        getInventory().insertItem(0, result, false);
         super.finish();
     }
 
     @Override
     public void increaseTicks() {
-        if (world.isRemote && world.rand.nextBoolean()) {
+        if (world.isRemote && world.rand.nextFloat() < 0.2) {
             doSteamParticles();
         }
         super.increaseTicks();

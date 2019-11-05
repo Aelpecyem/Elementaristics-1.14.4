@@ -21,7 +21,7 @@ public class BoilingBasinRenderer extends TileEntityRenderer<BoilingBasingTileEn
     public void render(BoilingBasingTileEntity tile, double x, double y, double z, float partialTicks, int destroyStage) {
         if (shouldRenderFluid(tile, tile.getInventory())) {
             float progress = tile.getTicks() / (float) BoilingBasingTileEntity.TICKS_REQUIRED;
-            float fluidHeight = 0.06F + (tile.getInventory().getStackInSlot(0).isEmpty() ? 0 : (0.083F * tile.getInventory().getStackInSlot(0).getCount() * (1 - progress))); //later use a special texture uwu
+            float fluidHeight = 0.06F + (tile.getInventory().getStackInSlot(0).getCount() >= 3 ? (0.083F * tile.getInventory().getStackInSlot(0).getCount() * (1 - progress)) : 0); //later use a special texture uwu
             Color color = getFluidColor(tile, tile.getInventory(), progress);
             GlStateManager.pushMatrix();
             GlStateManager.enableBlend();
@@ -41,7 +41,7 @@ public class BoilingBasinRenderer extends TileEntityRenderer<BoilingBasingTileEn
     public static Color getFluidColor(BoilingBasingTileEntity tile, IItemHandler inventory, float progress) {
         int i = InventoryUtil.slotForCheck(inventory, slot -> tile.isValidItem(inventory.getStackInSlot(slot)));
         if (i > -1) {
-            if (i == 0) {
+            if (tile.isWorking()) {
                 return ColorUtil.blend(new Color(tile.getOriginalColor()), new Color(tile.getTargetColor(tile.getOriginalColor())), 1 - progress, progress);
             }
             if (inventory.getStackInSlot(i).getItem() instanceof AlchemicalMatterItem) {
