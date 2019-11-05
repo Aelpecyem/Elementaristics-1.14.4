@@ -145,7 +145,7 @@ public class BoilingBasinBlock extends TileEntityFacingBaseBlock {
 
     @Override
     public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;// BlockRenderLayer.TRANSLUCENT; make this TRANSLUCENT again once the bug's been fixed
+        return BlockRenderLayer.TRANSLUCENT;// BlockRenderLayer.TRANSLUCENT; make this TRANSLUCENT again once the bug's been fixed
     }
 
    /* @Override

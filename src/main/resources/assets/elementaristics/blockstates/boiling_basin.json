@@ -23,24 +23,15 @@
       }
     },
     "facing=west,lit=true": {
-      "model": "elementaristics:block/boiling_basin",
-      "y": 90,
-      "textures": {
-        "all": "elementaristics:block/boiling_basin_on"
-      }
+      "model": "elementaristics:block/boiling_basin_on",
+      "y": 90
     },
     "facing=south,lit=true": {
-      "model": "elementaristics:block/boiling_basin",
-      "y": 180,
-      "textures": {
-        "all": "elementaristics:block/boiling_basin_on"
-      }
+      "model": "elementaristics:block/boiling_basin_on",
+      "y": 180
     },
     "facing=north,lit=true": {
-      "model": "elementaristics:block/boiling_basin",
-      "textures": {
-        "all": "elementaristics:block/boiling_basin_on"
-      }
+      "model": "elementaristics:block/boiling_basin_on"
     }
   }
 }

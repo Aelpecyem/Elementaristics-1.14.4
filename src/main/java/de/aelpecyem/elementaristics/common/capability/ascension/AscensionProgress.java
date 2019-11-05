@@ -45,7 +45,7 @@ public class AscensionProgress {
     }
 
     public CompoundNBT writeToNBT(CompoundNBT nbt) {
-        nbt.putString("soul", soul.getName().toString());
+        nbt.putString("soul", soul != null ? soul.getName().toString() : "");
         nbt.putBoolean("knowsSoul", knowsSoul);
         nbt.putString("path", ascensionPath.getPathName().toString());
         ascensionPath.writeToNBT(nbt);
