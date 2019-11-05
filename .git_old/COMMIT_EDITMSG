@@ -1,0 +1,41 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   src/generated/resources/.cache/cache
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/boiling_basin.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_dragon_aether.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_dragon_air.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_dragon_earth.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_dragon_fire.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_dragon_water.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_goat.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_moon.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_moth.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_sun.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/shrine_witch.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/smooth_stone_enriched.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/smooth_stone_enriched_slab.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/smooth_stone_enriched_stairs.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/stone_enriched.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/stone_enriched_slab.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/stone_enriched_stairs.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/stonebricks_enriched.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/stonebricks_enriched_slab.json
+#	new file:   src/generated/resources/data/elementaristics/loot_tables/blocks/stonebricks_enriched_stairs.json
+#	modified:   src/main/java/de/aelpecyem/elementaristics/client/particle/mode/ParticleModeSteam.java
+#	modified:   src/main/java/de/aelpecyem/elementaristics/client/particle/mode/ParticleModeVaporwave.java
+#	modified:   src/main/java/de/aelpecyem/elementaristics/client/particle/mode/ParticleModes.java
+#	modified:   src/main/java/de/aelpecyem/elementaristics/client/render/BoilingBasinRenderer.java
+#	modified:   src/main/java/de/aelpecyem/elementaristics/common/block/alchemy/BoilingBasinBlock.java
+#	modified:   src/main/java/de/aelpecyem/elementaristics/common/block/tile/AlchemyProcessingTileEntity.java
+#	modified:   src/main/java/de/aelpecyem/elementaristics/common/block/tile/BoilingBasingTileEntity.java
+#	modified:   src/main/resources/assets/elementaristics/blockstates/boiling_basin.json
+#	new file:   src/main/resources/assets/elementaristics/models/block/boiling_basin_frame.json
+#	new file:   src/main/resources/assets/elementaristics/models/block/boiling_basin_glass.json
+#	new file:   src/main/resources/assets/elementaristics/textures/block/.DS_Store
+#	new file:   src/main/resources/assets/minecraft/textures/entity/banner/.DS_Store
+#
