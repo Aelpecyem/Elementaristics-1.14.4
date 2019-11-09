@@ -22,6 +22,7 @@ public class CapabilityHandler {
     @SubscribeEvent
     public static void update(LivingEvent.LivingUpdateEvent event) {
         if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof PlayerEntity) {
+            System.out.println(ElementaristicsCapability.getCapability((PlayerEntity) event.getEntityLiving()).ascensionProgress.getSoul().getName().toString());
             ElementaristicsCapability.Util.syncAll((PlayerEntity) event.getEntityLiving());
         }
     }

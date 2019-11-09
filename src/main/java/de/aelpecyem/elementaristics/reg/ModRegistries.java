@@ -33,8 +33,15 @@ public class ModRegistries {
     public static Deity MOON = new Deity(22, new ResourceLocation(Elementaristics.MODID, "deity_moon"), null, 16508803);
     public static Deity WITCH = new Deity(23, new ResourceLocation(Elementaristics.MODID, "deity_witch"), null, 15887104);
 
+    public static Soul AIR;
+    public static Soul EARTH;
+    public static Soul FIRE;
+    public static Soul WATER;
+
     public static Soul MANA;
+
     public static Soul DRAGON;
+    public static Soul ANCIENT;
 
     public static AscensionPath PATH_DEUS_EX_CARNE; //The God from Flesh
     public static AscensionPath PATH_EGO_PERPETUUM; //The Unceasing Ego
@@ -50,8 +57,15 @@ public class ModRegistries {
     }
 
     private static void initSouls() {
+        AIR = new Soul("air", 51199, 0.9F, null);
+        EARTH = new Soul("earth", 24320, 0.9F, null);
+        FIRE = new Soul("fire", 16735232, 0.9F, null);
+        WATER = new Soul("water", 223, 0.9F, null);
+
         MANA = new Soul("mana", 14102152, 0.4F, null);
+
         DRAGON = new Soul("dragon", 15316992, 0.1F, null);
+        ANCIENT = new Soul("ancient", 5903, 0.1F, null);
     }
 
     private static void initAscensionPaths() {

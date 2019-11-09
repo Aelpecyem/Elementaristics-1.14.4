@@ -5,6 +5,7 @@ import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
 import de.aelpecyem.elementaristics.common.network.PacketHandler;
 import de.aelpecyem.elementaristics.util.InventoryUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -145,13 +146,13 @@ public class BoilingBasinBlock extends TileEntityFacingBaseBlock {
 
     @Override
     public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;// BlockRenderLayer.TRANSLUCENT; make this TRANSLUCENT again once the bug's been fixed
+        return BlockRenderLayer.SOLID;
     }
 
-   /* @Override
-    public boolean canRenderInLayer(BlockState state, BlockRenderLayer layer) {
-        return layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT;
-    }*/
+    @Override
+    public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction face) {
+        return false;
+    }
 
     public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
         return true;
