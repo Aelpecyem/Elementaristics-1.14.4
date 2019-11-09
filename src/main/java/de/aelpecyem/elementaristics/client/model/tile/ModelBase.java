@@ -1,4 +1,4 @@
-package de.aelpecyem.elementaristics.client.model;
+package de.aelpecyem.elementaristics.client.model.tile;
 
 import net.minecraft.client.renderer.model.Model;
 

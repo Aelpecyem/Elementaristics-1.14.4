@@ -1,9 +1,7 @@
-package de.aelpecyem.elementaristics.client.model;
+package de.aelpecyem.elementaristics.client.model.tile;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import de.aelpecyem.elementaristics.util.RenderUtil;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 
 /**
  * boiling_basin_2 - cybercat5555

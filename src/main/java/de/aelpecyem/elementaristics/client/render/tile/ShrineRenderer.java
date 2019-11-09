@@ -1,7 +1,7 @@
 package de.aelpecyem.elementaristics.client.render.tile;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import de.aelpecyem.elementaristics.client.model.ModelBase;
+import de.aelpecyem.elementaristics.client.model.tile.ModelBase;
 import de.aelpecyem.elementaristics.common.block.pantheon.ShrineBlock;
 import de.aelpecyem.elementaristics.common.block.tile.ShrineTileEntity;
 import de.aelpecyem.elementaristics.common.misc.pantheon.Deity;

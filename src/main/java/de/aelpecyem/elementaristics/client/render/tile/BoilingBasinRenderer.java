@@ -1,9 +1,5 @@
 package de.aelpecyem.elementaristics.client.render.tile;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.client.model.ModelBase;
-import de.aelpecyem.elementaristics.client.model.ModelBoilingBasin;
 import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
 import de.aelpecyem.elementaristics.common.item.crafting.AlchemicalMatterItem;
 import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
@@ -12,15 +8,10 @@ import de.aelpecyem.elementaristics.util.ColorUtil;
 import de.aelpecyem.elementaristics.util.InventoryUtil;
 import de.aelpecyem.elementaristics.util.RenderUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandler;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 

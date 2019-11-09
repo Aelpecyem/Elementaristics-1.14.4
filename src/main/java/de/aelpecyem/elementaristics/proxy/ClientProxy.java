@@ -3,8 +3,8 @@ package de.aelpecyem.elementaristics.proxy;
 
 import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.client.handler.HUDHandler;
-import de.aelpecyem.elementaristics.client.model.ModelBase;
-import de.aelpecyem.elementaristics.client.model.shrines.*;
+import de.aelpecyem.elementaristics.client.model.tile.ModelBase;
+import de.aelpecyem.elementaristics.client.model.tile.shrines.*;
 import de.aelpecyem.elementaristics.client.render.tile.BoilingBasinRenderer;
 import de.aelpecyem.elementaristics.client.render.tile.ShrineRenderer;
 import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;

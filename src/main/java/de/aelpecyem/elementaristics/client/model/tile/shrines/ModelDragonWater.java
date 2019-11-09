@@ -1,6 +1,6 @@
-package de.aelpecyem.elementaristics.client.model.shrines;
+package de.aelpecyem.elementaristics.client.model.tile.shrines;
 
-import de.aelpecyem.elementaristics.client.model.ModelBase;
+import de.aelpecyem.elementaristics.client.model.tile.ModelBase;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 
 /**
