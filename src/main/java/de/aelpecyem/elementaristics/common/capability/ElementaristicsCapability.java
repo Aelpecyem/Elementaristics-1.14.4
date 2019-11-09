@@ -28,13 +28,6 @@ public class ElementaristicsCapability implements ICapabilitySerializable<Compou
     public MaganStorage maganStorage;
 
     //todo regen and max magan buffers --- add those later
-    public ElementaristicsCapability(Random random) {
-        this.instance﻿ = this;
-        this.maganStorage = new MaganStorage();
-        this.ascensionProgress = new AscensionProgress();
-        ascensionProgress.setSoul(SoulHelper.getRandomSoulWithChance(random));
-    }
-
     public ElementaristicsCapability() {
         this.instance﻿ = this;
         this.maganStorage = new MaganStorage();
@@ -63,11 +56,6 @@ public class ElementaristicsCapability implements ICapabilitySerializable<Compou
         return (CompoundNBT) CAPABILITY.getStorage().writeNBT(CAPABILITY, this, null);
     }
 
-
-    public CompoundNBT writeUpdatePacket() {
-        return (CompoundNBT) CAPABILITY.getStorage().writeNBT(CAPABILITY, this, null);
-    }
-
     @Override
     public void deserializeNBT(CompoundNBT compoundNBT) {
         CAPABILITY.getStorage().readNBT(CAPABILITY, this, null, compoundNBT);
@@ -77,8 +65,12 @@ public class ElementaristicsCapability implements ICapabilitySerializable<Compou
     @Override
     public INBT writeNBT(Capability<ElementaristicsCapability> capability, ElementaristicsCapability instance, Direction direction) {
         CompoundNBT tag = new CompoundNBT();
+        if (ascensionProgress.getSoul() == null){
+            ascensionProgress.setSoul(SoulHelper.getRandomSoulWithChance());
+        }
         ascensionProgress.writeToNBT(tag);
         maganStorage.writeToNBT(tag);
+
         return tag;
     }
 

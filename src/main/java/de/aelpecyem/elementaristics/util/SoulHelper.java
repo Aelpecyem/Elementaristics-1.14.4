@@ -16,7 +16,8 @@ public class SoulHelper {
         return values[generator.nextInt(values.length)];
     }
 
-    public static Soul getRandomSoulWithChance(Random random) {
+    public static Soul getRandomSoulWithChance() {
+        Random random = new Random();
         List<Soul> possibleSouls = new ArrayList<>();
         possibleSouls.addAll(Soul.SOULS.values());
         Collections.shuffle(possibleSouls);

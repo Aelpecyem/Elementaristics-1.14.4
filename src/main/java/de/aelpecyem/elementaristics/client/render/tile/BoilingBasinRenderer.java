@@ -1,4 +1,4 @@
-package de.aelpecyem.elementaristics.client.render;
+package de.aelpecyem.elementaristics.client.render.tile;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.aelpecyem.elementaristics.Elementaristics;

@@ -1,6 +1,6 @@
 package de.aelpecyem.elementaristics;
 
-import de.aelpecyem.elementaristics.client.render.ShrineRenderer;
+import de.aelpecyem.elementaristics.client.render.tile.ShrineRenderer;
 import de.aelpecyem.elementaristics.common.block.pantheon.ShrineBlock;
 import de.aelpecyem.elementaristics.common.capability.ElementaristicsCapability;
 import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
@@ -97,7 +97,6 @@ public class Elementaristics {
 
     }
 
-    // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
 

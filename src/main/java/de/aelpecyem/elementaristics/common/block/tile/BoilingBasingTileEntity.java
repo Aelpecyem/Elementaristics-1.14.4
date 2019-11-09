@@ -3,7 +3,7 @@ package de.aelpecyem.elementaristics.common.block.tile;
 import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.client.particle.GlowParticle;
 import de.aelpecyem.elementaristics.client.particle.mode.ParticleModes;
-import de.aelpecyem.elementaristics.client.render.BoilingBasinRenderer;
+import de.aelpecyem.elementaristics.client.render.tile.BoilingBasinRenderer;
 import de.aelpecyem.elementaristics.common.item.crafting.AlchemicalMatterItem;
 import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
 import de.aelpecyem.elementaristics.common.misc.processing.AspectProcess;

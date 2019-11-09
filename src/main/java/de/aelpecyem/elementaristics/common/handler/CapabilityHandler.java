@@ -16,7 +16,7 @@ public class CapabilityHandler {
     @SubscribeEvent
     public static void attachCapability(AttachCapabilitiesEvent event) {
         if (event.getObject() instanceof PlayerEntity)
-            event.addCapability(CAP, new ElementaristicsCapability(((PlayerEntity) event.getObject()).getRNG()));
+            event.addCapability(CAP, new ElementaristicsCapability());
     }
 
     @SubscribeEvent

@@ -5,11 +5,12 @@ import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.client.handler.HUDHandler;
 import de.aelpecyem.elementaristics.client.model.ModelBase;
 import de.aelpecyem.elementaristics.client.model.shrines.*;
-import de.aelpecyem.elementaristics.client.render.BoilingBasinRenderer;
-import de.aelpecyem.elementaristics.client.render.ShrineRenderer;
+import de.aelpecyem.elementaristics.client.render.tile.BoilingBasinRenderer;
+import de.aelpecyem.elementaristics.client.render.tile.ShrineRenderer;
 import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
 import de.aelpecyem.elementaristics.common.block.tile.ShrineTileEntity;
 import de.aelpecyem.elementaristics.common.misc.pantheon.Deity;
+import de.aelpecyem.elementaristics.reg.ModEntities;
 import de.aelpecyem.elementaristics.reg.ModRegistries;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -26,6 +27,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void setup() {
+        ModEntities.registerRenderers();
         ClientRegistry.bindTileEntitySpecialRenderer(BoilingBasingTileEntity.class, new BoilingBasinRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(ShrineTileEntity.class, new ShrineRenderer());
         registerDeityModel(ModRegistries.DRAGON_AETHER, new ModelDragonAether());
