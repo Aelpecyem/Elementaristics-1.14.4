@@ -3,6 +3,7 @@ package de.aelpecyem.elementaristics.client.render.entity;
 import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.client.model.entity.CultistModel;
 import de.aelpecyem.elementaristics.common.entity.CultistEntity;
+import de.aelpecyem.elementaristics.common.entity.PlayerDummyEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -21,5 +22,10 @@ public class CultistRenderer extends LivingRenderer<CultistEntity, CultistModel>
     @Override
     protected ResourceLocation getEntityTexture(CultistEntity cultistEntity) {
         return STANDARD_TEX;
+    }
+
+    @Override
+    protected boolean canRenderName(CultistEntity entity) {
+        return entity.hasCustomName();
     }
 }

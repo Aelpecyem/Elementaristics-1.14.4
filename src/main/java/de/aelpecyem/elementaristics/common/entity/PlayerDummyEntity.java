@@ -1,9 +1,6 @@
 package de.aelpecyem.elementaristics.common.entity;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.passive.WolfEntity;
@@ -16,6 +13,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
 import net.minecraft.util.HandSide;
 import net.minecraft.world.World;
 
@@ -39,12 +37,19 @@ public class PlayerDummyEntity extends CreatureEntity {
 
     @Override
     public void tick() {
-        System.out.println("yay");
         if (getPlayer() == null){
-            System.out.println(":(");
             remove(false);
+        }else{
+            //check if the dimension is MIND
+            setPose(Pose.SLEEPING);
         }
         super.tick();
+    }
+
+    @Nullable
+    @Override
+    public Direction getBedDirection() {
+        return Direction.EAST; //this will change later
     }
 
     @Override
@@ -57,9 +62,10 @@ public class PlayerDummyEntity extends CreatureEntity {
 
     public void bringPlayerBack(){
         PlayerEntity player = getPlayer();
-        player.changeDimension(dimension);
-        player.setPositionAndUpdate(posX, posY, posZ);
+        if (player.dimension != dimension) player.dimension = dimension;
+        player.setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
         player.setHealth(getHealth());
+        remove();
     }
 
     @Override

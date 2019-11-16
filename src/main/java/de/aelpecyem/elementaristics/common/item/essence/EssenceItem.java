@@ -38,9 +38,7 @@ public class EssenceItem extends Item {
         if (!worldIn.isRemote){
             PlayerDummyEntity dummy = ModEntities.PLAYER_DUMMY.spawn(worldIn, null, null, playerIn, playerIn.getPosition(), SpawnReason.EVENT, false, false);
             dummy.setPositionAndUpdate(playerIn.posX, playerIn.posY, playerIn.posZ);
-        }
-        if (playerIn.isSneaking()){
-            playerIn.dimension = (ModWorld.MIND_DIMENSION);
+            dummy.setPlayer(playerIn);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }

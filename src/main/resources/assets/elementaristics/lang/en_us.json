@@ -36,5 +36,8 @@
   "block.elementaristics.shrine_goat": "Shrine to the Goat",
   "block.elementaristics.shrine_moth": "Shrine to the Moth",
   "block.elementaristics.shrine_moon": "Shrine to the Moon",
-  "block.elementaristics.shrine_witch": "Shrine to the Witch"
+  "block.elementaristics.shrine_witch": "Shrine to the Witch",
+
+
+  "entity.elementaristics.player_dummy": "Body"
 }
