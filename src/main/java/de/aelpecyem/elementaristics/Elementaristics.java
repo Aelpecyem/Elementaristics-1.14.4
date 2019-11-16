@@ -173,7 +173,7 @@ public class Elementaristics {
             } catch (Exception ignored) {
             }
         }
-
+/*
         @SubscribeEvent
         public static void registerDimensions(RegistryEvent.Register<ModDimension> register) {
             Elementaristics.LOGGER.info("Registering dimensions...");
@@ -203,8 +203,8 @@ public class Elementaristics {
         }
 
         @SubscribeEvent
-        public static void registerBiomes(RegistryEvent.Register<BiomeProviderType<?, ?>> register) {
-            Elementaristics.LOGGER.info("Registering world generators...");
+        public static void registerBiomeProviders(RegistryEvent.Register<BiomeProviderType<?, ?>> register) {
+            Elementaristics.LOGGER.info("Registering biome providers...");
             try {
                 for (Field f : ModWorld.class.getFields()) {
                     Object obj = f.get(null);
@@ -214,7 +214,7 @@ public class Elementaristics {
                     }
                 }
             } catch (Exception ignored) {}
-        }
+        }*/
 
         @SubscribeEvent
         public static void registerSpecialTextures(TextureStitchEvent.Pre event) {

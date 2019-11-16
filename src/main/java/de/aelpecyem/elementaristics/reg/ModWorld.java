@@ -21,7 +21,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import java.util.function.BiFunction;
 
 public class ModWorld {
-    /*@ObjectHolder(Elementaristics.MODID + ":mind")
+    @ObjectHolder(Elementaristics.MODID + ":mind")
     public static final ModDimension MIND = new ModDimension() {
         @Override
         public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
@@ -36,5 +36,5 @@ public class ModWorld {
     public static final ChunkGeneratorType<MindGeneratorSettings, MindChunkGenerator> MIND_GEN = new ChunkGeneratorType<>(MindChunkGenerator::new, true, MindGeneratorSettings::new);
 
     public static final DimensionType MIND_DIMENSION = DimensionManager.registerDimension(new ResourceLocation(Elementaristics.MODID, "elem_mind"), MIND, new PacketBuffer(Unpooled.buffer(16)), false);
-*/
+
 }
