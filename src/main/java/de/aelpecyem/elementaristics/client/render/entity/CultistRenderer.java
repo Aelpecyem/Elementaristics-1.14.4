@@ -1,6 +1,7 @@
 package de.aelpecyem.elementaristics.client.render.entity;
 
 import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.client.model.entity.CultistModel;
 import de.aelpecyem.elementaristics.common.entity.CultistEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -13,12 +14,12 @@ import javax.annotation.Nullable;
 public class CultistRenderer extends LivingRenderer<CultistEntity, CultistModel>{
     public static ResourceLocation STANDARD_TEX = new ResourceLocation(Elementaristics.MODID, "textures/entity/cultists/cultist_light.png");
     public CultistRenderer(EntityRendererManager manager) {
-        super(manager, model, 0.5F);
+        super(manager, new CultistModel(), 0.5F);
     }
 
     @Nullable
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
-        return null;
+    protected ResourceLocation getEntityTexture(CultistEntity cultistEntity) {
+        return STANDARD_TEX;
     }
 }

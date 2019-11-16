@@ -2,6 +2,7 @@ package de.aelpecyem.elementaristics.common.capability.ascension;
 
 import de.aelpecyem.elementaristics.common.capability.soul.Soul;
 import de.aelpecyem.elementaristics.reg.ModRegistries;
+import de.aelpecyem.elementaristics.util.SoulHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,6 +16,7 @@ public class AscensionProgress {
 
     public AscensionProgress() {
         ascensionPath = ModRegistries.PATH_DEUS_EX_CARNE;
+        soul = SoulHelper.getRandomSoulWithChance();
     }
 
     public void setSoul(Soul soul) {

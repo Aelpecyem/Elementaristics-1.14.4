@@ -23,7 +23,7 @@ public class ClientProxy extends CommonProxy {
     public static final Map<Deity, ResourceLocation> DEITY_TEXTURE_MAP = new HashMap<>();
 
 
-    public static final ResourceLocation THICC_WATER = new ResourceLocation(Elementaristics.MODID, "textures/block/thick_water.png");
+    public static final ResourceLocation THICC_WATER = new ResourceLocation(Elementaristics.MODID, "block/fluid/fluid");
 
     @Override
     public void setup() {

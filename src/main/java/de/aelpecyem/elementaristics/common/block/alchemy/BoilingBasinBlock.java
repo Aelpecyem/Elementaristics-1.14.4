@@ -146,7 +146,7 @@ public class BoilingBasinBlock extends TileEntityFacingBaseBlock {
 
     @Override
     public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.SOLID;
+        return BlockRenderLayer.CUTOUT;
     }
 
     @Override

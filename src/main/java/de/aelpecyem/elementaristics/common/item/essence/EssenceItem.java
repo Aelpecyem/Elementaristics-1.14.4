@@ -1,12 +1,20 @@
 package de.aelpecyem.elementaristics.common.item.essence;
 
 import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.common.entity.PlayerDummyEntity;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
+import de.aelpecyem.elementaristics.reg.ModEntities;
 import de.aelpecyem.elementaristics.reg.ModItems;
+import de.aelpecyem.elementaristics.reg.ModWorld;
+import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -25,6 +33,17 @@ public class EssenceItem extends Item {
         setRegistryName(new ResourceLocation(Elementaristics.MODID, "essence"));
     }
 
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        if (!worldIn.isRemote){
+            PlayerDummyEntity dummy = ModEntities.PLAYER_DUMMY.spawn(worldIn, null, null, playerIn, playerIn.getPosition(), SpawnReason.EVENT, false, false);
+            dummy.setPositionAndUpdate(playerIn.posX, playerIn.posY, playerIn.posZ);
+        }
+        if (playerIn.isSneaking()){
+            playerIn.dimension = (ModWorld.MIND_DIMENSION);
+        }
+        return super.onItemRightClick(worldIn, playerIn, handIn);
+    }
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {

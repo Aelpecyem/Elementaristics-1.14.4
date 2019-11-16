@@ -14,15 +14,16 @@ public class CapabilityHandler {
     private static final ResourceLocation CAP = new ResourceLocation(Elementaristics.MODID, "cap_player");
 
     @SubscribeEvent
-    public static void attachCapability(AttachCapabilitiesEvent event) {
-        if (event.getObject() instanceof PlayerEntity)
+    public static void attachCapability(AttachCapabilitiesEvent event) { //todo, fix this so the capabiltiy does only get added once for each entity
+        if (event.getObject() instanceof PlayerEntity) {
+            System.out.println(event.getCapabilities().containsKey(CAP));
             event.addCapability(CAP, new ElementaristicsCapability());
+        }
     }
 
     @SubscribeEvent
     public static void update(LivingEvent.LivingUpdateEvent event) {
         if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof PlayerEntity) {
-            System.out.println(ElementaristicsCapability.getCapability((PlayerEntity) event.getEntityLiving()).ascensionProgress.getSoul().getName().toString());
             ElementaristicsCapability.Util.syncAll((PlayerEntity) event.getEntityLiving());
         }
     }

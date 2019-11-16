@@ -27,23 +27,23 @@ public class RenderUtil {
     }
 
 
-    public static void renderFluid(FluidStack fluid, BlockPos pos, double x, double y, double z, double width, double height, double length) {
+    public static void renderFluid(FluidStack fluid, double x, double y, double z, double width, double height, double length) {
         double x1 = (1d - width) / 2d;
         double y1 = (1d - height) / 2d;
         double z1 = (1d - length) / 2d;
-        renderFluid(fluid, pos, x, y, z, x1, y1, z1, 1d - x1, 1d - y1, 1d - z1);
+        renderFluid(fluid, x, y, z, x1, y1, z1, 1d - x1, 1d - y1, 1d - z1);
     }
 
-    public static void renderFluid(FluidStack fluid, BlockPos pos, double x, double y, double z, double x1, double y1, double z1, double x2, double y2, double z2) {
+    public static void renderFluid(FluidStack fluid, double x, double y, double z, double x1, double y1, double z1, double x2, double y2, double z2) {
         int color = 0xFFFFFFFF;
-        renderFluid(fluid, pos, x, y, z, x1, y1, z1, x2, y2, z2, color);
+        renderFluid(fluid, x, y, z, x1, y1, z1, x2, y2, z2, color);
     }
 
-    public static void renderFluid(FluidStack fluid, BlockPos pos, double x, double y, double z, double x1, double y1, double z1, double x2, double y2, double z2, int color) {
-        renderCube(Minecraft.getInstance().getTextureMap().getSprite(fluid.getFluid().getAttributes().getStill(fluid)), pos, x, y, z, x1, y1, z1, x2, y2, z2, color, fluid.getFluid().getAttributes().getLuminosity());
+    public static void renderFluid(FluidStack fluid, double x, double y, double z, double x1, double y1, double z1, double x2, double y2, double z2, int color) {
+        renderCube(Minecraft.getInstance().getTextureMap().getSprite(fluid.getFluid().getAttributes().getStill(fluid)), x, y, z, x1, y1, z1, x2, y2, z2, color, fluid.getFluid().getAttributes().getLuminosity());
     }
 
-    public static void renderCube(TextureAtlasSprite sprite, BlockPos pos, double x, double y, double z, double x1, double y1, double z1, double x2, double y2, double z2, int color, int brightness) {
+    public static void renderCube(TextureAtlasSprite sprite, double x, double y, double z, double x1, double y1, double z1, double x2, double y2, double z2, int color, int brightness) {
         Minecraft mc = Minecraft.getInstance();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();

@@ -1,5 +1,7 @@
 package de.aelpecyem.elementaristics.client.render.tile;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import de.aelpecyem.elementaristics.client.model.tile.ModelBoilingBasin;
 import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
 import de.aelpecyem.elementaristics.common.item.crafting.AlchemicalMatterItem;
 import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
@@ -16,24 +18,27 @@ import net.minecraftforge.items.IItemHandler;
 import java.awt.*;
 
 public class BoilingBasinRenderer extends TileEntityRenderer<BoilingBasingTileEntity> {
+    public static ModelBoilingBasin MODEL = new ModelBoilingBasin();
+
+    //TODO fix the model and render stuff for this basin, but not now lol
     @Override
     public void render(BoilingBasingTileEntity tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        /*ResourceLocation texture = tile.isLit() ? getActiveTexture(tile.getWorld().getGameTime()) : TEXTURE_PASSIVE;
-        GlStateManager.pushMatrix();
-        GlStateManager.translated(x + 0.5, y + 1.5, z + 0.5);
-        GlStateManager.rotated(180, 0, 0, 1);
-        bindTexture(texture);
-        MODEL.render(0.0625f);
-        GlStateManager.popMatrix();*/
-
-        if (shouldRenderFluid(tile, tile.getInventory())) {
+        /*if (shouldRenderFluid(tile, tile.getInventory())) {
             float progress = tile.getTicks() / (float) BoilingBasingTileEntity.TICKS_REQUIRED;
+            // float progress = tile.getTicks() / (float) BoilingBasingTileEntity.TICKS_REQUIRED;
             float fluidHeight = 0.06F + (tile.getInventory().getStackInSlot(0).getCount() >= 3 ? (0.083F * tile.getInventory().getStackInSlot(0).getCount() * (1 - progress)) : 0); //later use a special texture uwu
             Color color = getFluidColor(tile, tile.getInventory(), progress);
             RenderUtil.translateAgainstPlayer(tile.getPos(), false);
-            Minecraft.getInstance().getTextureMap().getSprite(ClientProxy.THICC_WATER);//use this later
-            RenderUtil.renderFluid(new FluidStack(Fluids.WATER.getStillFluid(), 1000), tile.getPos(), 0, 0.3125d, 0, 0.25d, 0, 0.25d, 0.75d, fluidHeight, 0.75d, color.getRGB());
-        }
+            //Minecraft.getInstance().getTextureMap().getSprite(ClientProxy.THICC_WATER);//use this later
+            RenderUtil.renderCube(Minecraft.getInstance().getTextureMap().getSprite(ClientProxy.THICC_WATER), 0, 0.3125d, 0, 0.25d, 0, 0.25d, 0.75d, fluidHeight, 0.75d, color != null ? color.getRGB() : 148586, Fluids.WATER.getAttributes().getLuminosity());
+        }*/
+
+        //do render for that later :(
+        GlStateManager.pushMatrix();
+        GlStateManager.translated(x + 0.5, y + 1.5, z + 0.5);
+        GlStateManager.rotated(180, 0, 0, 1);
+        MODEL.render(0.0625f);
+        GlStateManager.popMatrix();
     }
 
     private boolean shouldRenderFluid(BoilingBasingTileEntity tile, IItemHandler inventory) {

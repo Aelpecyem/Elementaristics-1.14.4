@@ -32,6 +32,7 @@ public class ElementaristicsCapability implements ICapabilitySerializable<Compou
         this.instance﻿ = this;
         this.maganStorage = new MaganStorage();
         this.ascensionProgress = new AscensionProgress();
+
     }
 
 

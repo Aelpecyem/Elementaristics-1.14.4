@@ -16,10 +16,13 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.biome.provider.BiomeProviderType;
+import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -169,6 +172,48 @@ public class Elementaristics {
                 }
             } catch (Exception ignored) {
             }
+        }
+
+        @SubscribeEvent
+        public static void registerDimensions(RegistryEvent.Register<ModDimension> register) {
+            Elementaristics.LOGGER.info("Registering dimensions...");
+            try {
+                for (Field f : ModWorld.class.getFields()) {
+                    Object obj = f.get(null);
+                    Elementaristics.LOGGER.info(obj);
+                    if (obj instanceof ModDimension) {
+                        register.getRegistry().register((ModDimension) obj);
+                    }
+                }
+            } catch (Exception ignored) {}
+        }
+
+        @SubscribeEvent
+        public static void registerGenerators(RegistryEvent.Register<ChunkGeneratorType<?, ?>> register) {
+            Elementaristics.LOGGER.info("Registering world generators...");
+            try {
+                for (Field f : ModWorld.class.getFields()) {
+                    Object obj = f.get(null);
+                    Elementaristics.LOGGER.info(obj);
+                    if (obj instanceof ChunkGeneratorType) {
+                        register.getRegistry().register((ChunkGeneratorType) obj);
+                    }
+                }
+            } catch (Exception ignored) {}
+        }
+
+        @SubscribeEvent
+        public static void registerBiomes(RegistryEvent.Register<BiomeProviderType<?, ?>> register) {
+            Elementaristics.LOGGER.info("Registering world generators...");
+            try {
+                for (Field f : ModWorld.class.getFields()) {
+                    Object obj = f.get(null);
+                    Elementaristics.LOGGER.info(obj);
+                    if (obj instanceof BiomeProviderType) {
+                        register.getRegistry().register((BiomeProviderType) obj);
+                    }
+                }
+            } catch (Exception ignored) {}
         }
 
         @SubscribeEvent
