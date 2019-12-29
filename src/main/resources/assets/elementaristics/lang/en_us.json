@@ -39,5 +39,7 @@
   "block.elementaristics.shrine_witch": "Shrine to the Witch",
 
 
-  "entity.elementaristics.player_dummy": "Body"
+  "entity.elementaristics.player_dummy": "Body",
+
+  "biome.elementaristics.fields_reason": "Mindful Meadows"
 }

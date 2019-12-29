@@ -71,6 +71,7 @@ public class Elementaristics {
 
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("Starting pre-init...");
+        ModWorld.registerDimensions();
         ModRegistries.init();
         CapabilityManager.INSTANCE.register(ElementaristicsCapability.class, new ElementaristicsCapability(), ElementaristicsCapability::new);
         PacketHandler.initPackets();
@@ -173,48 +174,6 @@ public class Elementaristics {
             } catch (Exception ignored) {
             }
         }
-/*
-        @SubscribeEvent
-        public static void registerDimensions(RegistryEvent.Register<ModDimension> register) {
-            Elementaristics.LOGGER.info("Registering dimensions...");
-            try {
-                for (Field f : ModWorld.class.getFields()) {
-                    Object obj = f.get(null);
-                    Elementaristics.LOGGER.info(obj);
-                    if (obj instanceof ModDimension) {
-                        register.getRegistry().register((ModDimension) obj);
-                    }
-                }
-            } catch (Exception ignored) {}
-        }
-
-        @SubscribeEvent
-        public static void registerGenerators(RegistryEvent.Register<ChunkGeneratorType<?, ?>> register) {
-            Elementaristics.LOGGER.info("Registering world generators...");
-            try {
-                for (Field f : ModWorld.class.getFields()) {
-                    Object obj = f.get(null);
-                    Elementaristics.LOGGER.info(obj);
-                    if (obj instanceof ChunkGeneratorType) {
-                        register.getRegistry().register((ChunkGeneratorType) obj);
-                    }
-                }
-            } catch (Exception ignored) {}
-        }
-
-        @SubscribeEvent
-        public static void registerBiomeProviders(RegistryEvent.Register<BiomeProviderType<?, ?>> register) {
-            Elementaristics.LOGGER.info("Registering biome providers...");
-            try {
-                for (Field f : ModWorld.class.getFields()) {
-                    Object obj = f.get(null);
-                    Elementaristics.LOGGER.info(obj);
-                    if (obj instanceof BiomeProviderType) {
-                        register.getRegistry().register((BiomeProviderType) obj);
-                    }
-                }
-            } catch (Exception ignored) {}
-        }*/
 
         @SubscribeEvent
         public static void registerSpecialTextures(TextureStitchEvent.Pre event) {

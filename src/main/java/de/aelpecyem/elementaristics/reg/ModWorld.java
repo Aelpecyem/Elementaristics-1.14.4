@@ -1,40 +1,42 @@
 package de.aelpecyem.elementaristics.reg;
 
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.common.world.dimension.mind.MindBiomeProvider;
-import de.aelpecyem.elementaristics.common.world.dimension.mind.MindChunkGenerator;
-import de.aelpecyem.elementaristics.common.world.dimension.mind.MindDimension;
-import de.aelpecyem.elementaristics.common.world.dimension.mind.settings.MindBiomeProviderSettings;
-import de.aelpecyem.elementaristics.common.world.dimension.mind.settings.MindGeneratorSettings;
+import de.aelpecyem.elementaristics.common.world.biome.MindBiomeMeadows;
+import de.aelpecyem.elementaristics.common.world.dimension.MindDimensionType;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.provider.BiomeProviderType;
-import net.minecraft.world.dimension.Dimension;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.gen.ChunkGeneratorType;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 
-import java.util.function.BiFunction;
-
+@ObjectHolder(Elementaristics.MODID)
 public class ModWorld {
-    @ObjectHolder(Elementaristics.MODID + ":mind")
-    public static final ModDimension MIND = new ModDimension() {
-        @Override
-        public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
-            return MindDimension::new;
+    public static final MindDimensionType MIND = new MindDimensionType(new ResourceLocation(Elementaristics.MODID, "mind"));
+
+    public static final Biome FIELDS_REASON = new MindBiomeMeadows();
+
+    public static void registerDimensions() {
+        DimensionManager.registerDimension(new ResourceLocation(Elementaristics.MODID, "mind"), MIND, new PacketBuffer(Unpooled.buffer(16)), false);
+    }
+
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class RegistryEvents
+    {
+        @SubscribeEvent
+        public static void registerModDimensions(final RegistryEvent.Register<ModDimension> event) {
+            Elementaristics.LOGGER.info("Registering dimensions...");
+            event.getRegistry().registerAll(MIND);
         }
-    }.setRegistryName(Elementaristics.MODID, "mind");
 
-    @ObjectHolder(Elementaristics.MODID + ":mind_provider")
-    public static final BiomeProviderType<MindBiomeProviderSettings, MindBiomeProvider> MIND_PROVIDER = new BiomeProviderType<>(MindBiomeProvider::new, MindBiomeProviderSettings::new);
-
-    @ObjectHolder(Elementaristics.MODID + ":mind_gen")
-    public static final ChunkGeneratorType<MindGeneratorSettings, MindChunkGenerator> MIND_GEN = new ChunkGeneratorType<>(MindChunkGenerator::new, true, MindGeneratorSettings::new);
-
-    public static final DimensionType MIND_DIMENSION = DimensionManager.registerDimension(new ResourceLocation(Elementaristics.MODID, "elem_mind"), MIND, new PacketBuffer(Unpooled.buffer(16)), false);
-
+        @SubscribeEvent
+        public static void registerBiomes(final RegistryEvent.Register<Biome> e) {
+            Elementaristics.LOGGER.info("Registering biomes...");
+            e.getRegistry().registerAll(FIELDS_REASON);
+        }
+    }
 }

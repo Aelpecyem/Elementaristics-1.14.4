@@ -3,6 +3,7 @@ package de.aelpecyem.elementaristics.common.item.essence;
 import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.common.entity.PlayerDummyEntity;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
+import de.aelpecyem.elementaristics.common.world.dimension.MindDimension;
 import de.aelpecyem.elementaristics.reg.ModEntities;
 import de.aelpecyem.elementaristics.reg.ModItems;
 import de.aelpecyem.elementaristics.reg.ModWorld;
@@ -39,6 +40,9 @@ public class EssenceItem extends Item {
             PlayerDummyEntity dummy = ModEntities.PLAYER_DUMMY.spawn(worldIn, null, null, playerIn, playerIn.getPosition(), SpawnReason.EVENT, false, false);
             dummy.setPositionAndUpdate(playerIn.posX, playerIn.posY, playerIn.posZ);
             dummy.setPlayer(playerIn);
+            if (playerIn.isSneaking()){
+                MindDimension.teleport(playerIn);
+            }
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
