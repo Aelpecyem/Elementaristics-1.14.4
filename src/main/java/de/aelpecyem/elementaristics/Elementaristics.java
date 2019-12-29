@@ -16,21 +16,20 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.NonNullList;
-import net.minecraft.world.biome.provider.BiomeProviderType;
-import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,7 +37,12 @@ import java.lang.reflect.Field;
 
 @Mod(Elementaristics.MODID)
 public class Elementaristics {
-    //todo; redo particles entirely, but keep the nifty particle types I added uwu
+    /*Todo, make the frame I made usable, namely by:
+        -implementing the Mind and its features
+        -fixing the capability stuff, as it won't save :(
+        -Rites
+        -Alchemy (also really get the Basin thing done bruh)
+    */
     public static final String MODID = "elementaristics";
     public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     public static final Logger LOGGER = LogManager.getLogger(Elementaristics.MODID);
@@ -60,18 +64,22 @@ public class Elementaristics {
     };
 
     public Elementaristics() {
+        ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, ModConfig.CLIENT_CONFIG);
+        ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, ModConfig.COMMON_CONFIG);
+
         Aspect.initAspects();
-        //  ModBanners.init();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::postSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+
+        ModConfig.loadConfig(ModConfig.CLIENT_CONFIG, FMLPaths.CONFIGDIR.get().resolve("elementaristics-client.toml"));
+        ModConfig.loadConfig(ModConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("elementaristics-common.toml"));
     }
 
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("Starting pre-init...");
-        ModWorld.registerDimensions();
         ModRegistries.init();
         CapabilityManager.INSTANCE.register(ElementaristicsCapability.class, new ElementaristicsCapability(), ElementaristicsCapability::new);
         PacketHandler.initPackets();
@@ -84,7 +92,7 @@ public class Elementaristics {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        particles.init();
+
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

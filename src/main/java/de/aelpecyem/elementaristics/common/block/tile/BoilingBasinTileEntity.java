@@ -18,10 +18,10 @@ import java.awt.*;
 
 import static de.aelpecyem.elementaristics.reg.ModBlocks.PURIFIER;
 
-public class BoilingBasingTileEntity extends AlchemyProcessingTileEntity {
+public class BoilingBasinTileEntity extends AlchemyProcessingTileEntity {
     public static final int TICKS_REQUIRED = 500;
 
-    public BoilingBasingTileEntity() {
+    public BoilingBasinTileEntity() {
         super(PURIFIER);
     }
     /*this will be merged with the Basin
@@ -47,6 +47,8 @@ public class BoilingBasingTileEntity extends AlchemyProcessingTileEntity {
     public boolean isLit() {
         return world.getBlockState(pos).get(BlockStateProperties.LIT);
     }
+
+
     @Override
     public void finish() {
         ItemStack result = getInventory().extractItem(0, 3, false);
@@ -77,6 +79,5 @@ public class BoilingBasingTileEntity extends AlchemyProcessingTileEntity {
         GlowParticle particle = new GlowParticle(world, pos.getX() + 0.25F + world.rand.nextFloat() / 2F, pos.getY() + 0.6F + world.rand.nextFloat() / 10F, pos.getZ() + 0.25F + world.rand.nextFloat() / 2F, 0, world.rand.nextFloat() / 100F, 0, 120, BoilingBasinRenderer.getFluidColor(this, getInventory(), getTicks() / (float) TICKS_REQUIRED).getRGB(), 0.9F, 0.05F + world.rand.nextFloat() / 10F, 0, true, true, GlowParticle.EnumFadeMode.OUT);
         particle.setMode(ParticleModes.STEAM);
         Elementaristics.particles.spawnParticle(particle);
-        //add custom particle mode: steam --- switch to white-blueish thing and have a variation and uhhh probably something with alpha
     }
 }

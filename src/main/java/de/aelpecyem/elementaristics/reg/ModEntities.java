@@ -7,7 +7,6 @@ import de.aelpecyem.elementaristics.common.entity.CultistEntity;
 import de.aelpecyem.elementaristics.common.entity.PlayerDummyEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;

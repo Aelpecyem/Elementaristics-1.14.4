@@ -2,9 +2,7 @@ package de.aelpecyem.elementaristics.common.entity;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.DrownedEntity;
 import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;

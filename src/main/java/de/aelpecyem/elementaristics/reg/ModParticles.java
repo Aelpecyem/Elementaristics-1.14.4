@@ -2,6 +2,7 @@ package de.aelpecyem.elementaristics.reg;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.aelpecyem.elementaristics.Elementaristics;
+import de.aelpecyem.elementaristics.ModConfig;
 import de.aelpecyem.elementaristics.client.particle.GlowParticle;
 import de.aelpecyem.elementaristics.client.particle.ModParticle;
 import de.aelpecyem.elementaristics.client.particle.mode.ParticleMode;
@@ -36,21 +37,6 @@ import java.util.function.Supplier;
 @ObjectHolder(Elementaristics.MODID)
 @Mod.EventBusSubscriber(modid = Elementaristics.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModParticles {
-    //@ObjectHolder(Elementaristics.MODID + ":glow")
-    //public static final ParticleType GLOW = new BasicParticleType(true).setRegistryName(Elementaristics.MODID, "glow");
-
-    @OnlyIn(Dist.CLIENT)
-    public void init(){
-        //Elementaristics.LOGGER.log(Level.INFO, "Registering particle factories...")
-        // ParticleManager particles = Minecraft.getInstance().particles;
-        //particles.registerFactory(GLOW, (ParticleManager.IParticleMetaFactory) BubbleParticle.Factory::new); //todo fix the particle factory
-    }
-
-    @SubscribeEvent
-    public static void registerParticles(RegistryEvent.Register<ParticleType<?>> register) {
-        //Elementaristics.LOGGER.log(Level.INFO, "Registering particles...");
-        //register.getRegistry().register(GLOW);
-    }
 
     //-----PARTICLE SPAWNING---------
     public void spawnParticle(GlowParticle particle) {
@@ -107,22 +93,8 @@ public class ModParticles {
         private static final List<Particle> PARTICLES = new CopyOnWriteArrayList<>();
 
         public static void spawnParticle(Supplier<GlowParticle> particle) {
-        /*Config.EnumParticles particleAmount = Config.client.particleAmount; todo: implement this once i finally get myself to add a config
-        switch (particleAmount) {
-            case STANDARD:
-                break;
-            case REDUCED:
-                if (mc.world.rand.nextInt(3) != 0) {
-                    return;
-                }
-                break;
-            case MINIMAL:
-                if (mc.world.rand.nextInt(10) != 0) {
-                    return;
-                }
-                break;
-        }*/
-            PARTICLES.add(particle.get());
+            if (!ModConfig.REDUCE_PARTICLES.get() || Minecraft.getInstance().world.rand.nextBoolean())
+                PARTICLES.add(particle.get());
         }
 
         public static void updateParticles() {

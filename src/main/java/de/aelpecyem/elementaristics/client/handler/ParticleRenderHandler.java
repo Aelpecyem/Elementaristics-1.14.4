@@ -17,8 +17,8 @@ public class ParticleRenderHandler {
     @SubscribeEvent
     public static void onRenderLast(RenderWorldLastEvent event) {
         Minecraft mc = Minecraft.getInstance();
-        mc.getProfiler().startSection(() -> Elementaristics.MODID + ":renderParticles"); //mcProfiler.func_194340_a(() -> Elementaristics.MODID + ":renderParticles");
-        ModParticles.Handler.renderParticle(event.getPartialTicks());//, event.getContext().event.getPartialTicks());
+        mc.getProfiler().startSection(() -> Elementaristics.MODID + ":renderParticles");
+        ModParticles.Handler.renderParticle(event.getPartialTicks());
         mc.getProfiler().endSection();
     }
 

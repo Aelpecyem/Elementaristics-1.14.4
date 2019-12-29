@@ -6,7 +6,7 @@ import de.aelpecyem.elementaristics.common.block.base.BaseBlock;
 import de.aelpecyem.elementaristics.common.block.base.SlabBaseBlock;
 import de.aelpecyem.elementaristics.common.block.base.StairsBaseBlock;
 import de.aelpecyem.elementaristics.common.block.pantheon.ShrineBlock;
-import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
+import de.aelpecyem.elementaristics.common.block.tile.BoilingBasinTileEntity;
 import de.aelpecyem.elementaristics.common.block.tile.ShrineTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -73,7 +73,7 @@ public class ModBlocks {
 
     //TileEntityTypes
     @ObjectHolder(Elementaristics.MODID + ":boiling_basin")
-    public static TileEntityType<BoilingBasingTileEntity> PURIFIER = (TileEntityType<BoilingBasingTileEntity>) TileEntityType.Builder.create(BoilingBasingTileEntity::new, ModBlocks.boiling_basin).build(null).setRegistryName("boiling_basin");
+    public static TileEntityType<BoilingBasinTileEntity> PURIFIER = (TileEntityType<BoilingBasinTileEntity>) TileEntityType.Builder.create(BoilingBasinTileEntity::new, ModBlocks.boiling_basin).build(null).setRegistryName("boiling_basin");
     @ObjectHolder(Elementaristics.MODID + ":shrine")
     public static TileEntityType<ShrineTileEntity> SHRINE = (TileEntityType<ShrineTileEntity>) TileEntityType.Builder.create(ShrineTileEntity::new, SHRINES.toArray(new ShrineBlock[SHRINES.size()])).build(null).setRegistryName("shrine");
 

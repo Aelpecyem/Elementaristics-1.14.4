@@ -1,26 +1,18 @@
 package de.aelpecyem.elementaristics.client.render.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.client.model.entity.CultistModel;
-import de.aelpecyem.elementaristics.common.entity.CultistEntity;
 import de.aelpecyem.elementaristics.common.entity.PlayerDummyEntity;
-import net.minecraft.block.BedBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.entity.WolfRenderer;
-import net.minecraft.client.renderer.entity.layers.*;
+import net.minecraft.client.renderer.entity.layers.ArrowLayer;
+import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
+import net.minecraft.client.renderer.entity.layers.HeadLayer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.common.MinecraftForge;
 
 import javax.annotation.Nullable;
 

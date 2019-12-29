@@ -2,14 +2,9 @@ package de.aelpecyem.elementaristics.client.model.tile;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.aelpecyem.elementaristics.Elementaristics;
-import de.aelpecyem.elementaristics.proxy.ClientProxy;
-import de.aelpecyem.elementaristics.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.awt.*;
 

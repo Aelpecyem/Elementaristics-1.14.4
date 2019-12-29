@@ -2,27 +2,22 @@ package de.aelpecyem.elementaristics.client.render.tile;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import de.aelpecyem.elementaristics.client.model.tile.ModelBoilingBasin;
-import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
+import de.aelpecyem.elementaristics.common.block.tile.BoilingBasinTileEntity;
 import de.aelpecyem.elementaristics.common.item.crafting.AlchemicalMatterItem;
 import de.aelpecyem.elementaristics.common.item.essence.EssenceItem;
-import de.aelpecyem.elementaristics.proxy.ClientProxy;
 import de.aelpecyem.elementaristics.util.ColorUtil;
 import de.aelpecyem.elementaristics.util.InventoryUtil;
-import de.aelpecyem.elementaristics.util.RenderUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.fluid.Fluids;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandler;
 
 import java.awt.*;
 
-public class BoilingBasinRenderer extends TileEntityRenderer<BoilingBasingTileEntity> {
+public class BoilingBasinRenderer extends TileEntityRenderer<BoilingBasinTileEntity> {
     public static ModelBoilingBasin MODEL = new ModelBoilingBasin();
 
     //TODO fix the model and render stuff for this basin, but not now lol
     @Override
-    public void render(BoilingBasingTileEntity tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(BoilingBasinTileEntity tile, double x, double y, double z, float partialTicks, int destroyStage) {
         /*if (shouldRenderFluid(tile, tile.getInventory())) {
             float progress = tile.getTicks() / (float) BoilingBasingTileEntity.TICKS_REQUIRED;
             // float progress = tile.getTicks() / (float) BoilingBasingTileEntity.TICKS_REQUIRED;
@@ -41,11 +36,11 @@ public class BoilingBasinRenderer extends TileEntityRenderer<BoilingBasingTileEn
         GlStateManager.popMatrix();
     }
 
-    private boolean shouldRenderFluid(BoilingBasingTileEntity tile, IItemHandler inventory) {
+    private boolean shouldRenderFluid(BoilingBasinTileEntity tile, IItemHandler inventory) {
         return getFluidColor(tile, inventory, 0) != null;
     }
 
-    public static Color getFluidColor(BoilingBasingTileEntity tile, IItemHandler inventory, float progress) {
+    public static Color getFluidColor(BoilingBasinTileEntity tile, IItemHandler inventory, float progress) {
         int i = InventoryUtil.slotForCheck(inventory, slot -> tile.isValidItem(inventory.getStackInSlot(slot)));
         if (i > -1) {
             if (tile.isWorking()) {

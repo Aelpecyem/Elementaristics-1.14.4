@@ -1,11 +1,10 @@
 package de.aelpecyem.elementaristics.common.block.alchemy;
 
 import de.aelpecyem.elementaristics.common.block.base.TileEntityFacingBaseBlock;
-import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
+import de.aelpecyem.elementaristics.common.block.tile.BoilingBasinTileEntity;
 import de.aelpecyem.elementaristics.common.network.PacketHandler;
 import de.aelpecyem.elementaristics.util.InventoryUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -173,6 +172,6 @@ public class BoilingBasinBlock extends TileEntityFacingBaseBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new BoilingBasingTileEntity();
+        return new BoilingBasinTileEntity();
     }
 }

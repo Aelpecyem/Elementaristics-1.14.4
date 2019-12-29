@@ -16,7 +16,6 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class ElementaristicsCapability implements ICapabilitySerializable<CompoundNBT>, Capability.IStorage<ElementaristicsCapability> {
     @CapabilityInject(ElementaristicsCapability.class)

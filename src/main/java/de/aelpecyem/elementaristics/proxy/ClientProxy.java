@@ -7,7 +7,7 @@ import de.aelpecyem.elementaristics.client.model.tile.ModelBase;
 import de.aelpecyem.elementaristics.client.model.tile.shrines.*;
 import de.aelpecyem.elementaristics.client.render.tile.BoilingBasinRenderer;
 import de.aelpecyem.elementaristics.client.render.tile.ShrineRenderer;
-import de.aelpecyem.elementaristics.common.block.tile.BoilingBasingTileEntity;
+import de.aelpecyem.elementaristics.common.block.tile.BoilingBasinTileEntity;
 import de.aelpecyem.elementaristics.common.block.tile.ShrineTileEntity;
 import de.aelpecyem.elementaristics.common.misc.pantheon.Deity;
 import de.aelpecyem.elementaristics.reg.ModEntities;
@@ -28,7 +28,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void setup() {
         ModEntities.registerRenderers();
-        ClientRegistry.bindTileEntitySpecialRenderer(BoilingBasingTileEntity.class, new BoilingBasinRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(BoilingBasinTileEntity.class, new BoilingBasinRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(ShrineTileEntity.class, new ShrineRenderer());
         registerDeityModel(ModRegistries.DRAGON_AETHER, new ModelDragonAether());
         registerDeityModel(ModRegistries.DRAGON_FIRE, new ModelDragonFire());

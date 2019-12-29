@@ -1,7 +1,10 @@
 package de.aelpecyem.elementaristics.client.model.entity;
 
 import de.aelpecyem.elementaristics.common.entity.CultistEntity;
-import net.minecraft.client.renderer.entity.model.*;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.IHasArm;
+import net.minecraft.client.renderer.entity.model.IHasHead;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.MathHelper;
 

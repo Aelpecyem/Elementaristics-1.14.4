@@ -3,11 +3,8 @@ package de.aelpecyem.elementaristics.common.item.essence;
 import de.aelpecyem.elementaristics.Elementaristics;
 import de.aelpecyem.elementaristics.common.entity.PlayerDummyEntity;
 import de.aelpecyem.elementaristics.common.misc.aspect.Aspect;
-import de.aelpecyem.elementaristics.common.world.dimension.MindDimension;
 import de.aelpecyem.elementaristics.reg.ModEntities;
 import de.aelpecyem.elementaristics.reg.ModItems;
-import de.aelpecyem.elementaristics.reg.ModWorld;
-import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,7 +38,7 @@ public class EssenceItem extends Item {
             dummy.setPositionAndUpdate(playerIn.posX, playerIn.posY, playerIn.posZ);
             dummy.setPlayer(playerIn);
             if (playerIn.isSneaking()){
-                MindDimension.teleport(playerIn);
+                //teleport
             }
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
